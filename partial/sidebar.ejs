@@ -1,0 +1,26 @@
+<nav class="col-md-3 col-lg-2 d-md-block shadow sidebar py-3 ">
+    <div class="position-sticky pt-3">
+        <div class="text-center mb-4 d-flex justify-content-center">
+            <img class="mx-2 rounded-5" style="width: 40px;" src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="">
+            <h4 class="text-white">جالاكسي قروب</h4>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="/dashboard"><i class="fa-solid fa-lock-open me-2"></i>لوحة التحكم</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/projects"><i class="fa-solid fa-list-check me-2"></i></i>المشاريع</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/clients"><i class="fa-solid fa-user-tie me-2"></i>العملاء</a>
+            </li>
+            <li class="nav-item mt-4">
+                <form method="POST" action="/logout">
+                    <button type="submit" class="nav-link btn btn-link text-start w-100 text-danger" >
+                        <i class="fas fa-sign-out-alt me-2"></i>تسجيل الخروج
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,266 @@
+<!-- views/layout.ejs -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - إدارة المطابخ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #2c3e50 !important;
+        }
+        .sidebar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 15px 20px;
+            margin: 5px 0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            transform: translateX(-5px);
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 10px 25px;
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+            border: none;
+            border-radius: 10px;
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            border: none;
+            border-radius: 10px;
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+        }
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: #667eea;
+        }
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            border-radius: 0 0 20px 20px;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+        }
+        .image-preview {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .video-preview {
+            max-width: 200px;
+            border-radius: 10px;
+            margin: 10px;
+        }
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        .language-tabs {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .nav-tabs .nav-link {
+            border-radius: 10px 10px 0 0;
+            border: 2px solid transparent;
+            color: #667eea;
+            font-weight: 600;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .dropdown-menu {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h4 class="text-white">
+                            <i class="fas fa-kitchen-set me-2"></i>
+                            إدارة المطابخ
+                        </h4>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                لوحة التحكم
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/projects">
+                                <i class="fas fa-project-diagram me-2"></i>
+                                المشاريع
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/clients">
+                                <i class="fas fa-users me-2"></i>
+                                العملاء
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <form method="POST" action="/logout" class="d-inline">
+                                <button type="submit" class="nav-link btn btn-link text-start w-100" style="color: rgba(255,255,255,0.8);">
+                                    <i class="fas fa-sign-out-alt me-2"></i>
+                                    تسجيل الخروج
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <% if (typeof success !== 'undefined' && success) { %>
+                    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                        <%= success %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <% } %>
+                
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        <%= error %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <% } %>
+
+                <%- body %>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // File upload preview
+        function previewImages(input, previewContainer) {
+            const files = input.files;
+            const container = document.getElementById(previewContainer);
+            container.innerHTML = '';
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const div = document.createElement('div');
+                    div.className = 'd-inline-block';
+                    
+                    if (file.type.startsWith('image/')) {
+                        div.innerHTML = `<img src="${e.target.result}" class="image-preview" alt="Preview">`;
+                    } else if (file.type.startsWith('video/')) {
+                        div.innerHTML = `<video src="${e.target.result}" class="video-preview" controls></video>`;
+                    }
+                    
+                    container.appendChild(div);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Delete confirmation
+        function confirmDelete(url, message) {
+            if (confirm(message || 'هل أنت متأكد من الحذف؟')) {
+                fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('حدث خطأ أثناء الحذف');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('حدث خطأ أثناء الحذف');
+                });
+            }
+        }
+
+        // Language switching
+        function switchLanguage(lang) {
+            const arabicInputs = document.querySelectorAll('[data-lang="ar"]');
+            const englishInputs = document.querySelectorAll('[data-lang="en"]');
+            
+            if (lang === 'ar') {
+                arabicInputs.forEach(input => input.style.display = 'block');
+                englishInputs.forEach(input => input.style.display = 'none');
+            } else {
+                arabicInputs.forEach(input => input.style.display = 'none');
+                englishInputs.forEach(input => input.style.display = 'block');
+            }
+        }
+    </script>
+</body>
+</html>

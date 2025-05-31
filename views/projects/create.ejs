@@ -1,0 +1,185 @@
+<!-- views/projects/create.ejs -->
+<%- include('../../partial/dashboard.ejs') %>
+
+<body>
+    <style>
+        .card { border: none; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .form-control, .form-select { border-radius: 10px; border: 2px solid #e9ecef; padding: 12px 15px; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 10px; }
+        .image-preview { max-width: 150px; max-height: 150px; border-radius: 10px; margin: 10px; }
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+           <%- include('../../partial/sidebar.ejs') %>
+
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 p-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2"><i class="fas fa-plus-circle me-2"></i><%= title %></h1>
+                    <a href="/projects" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-right me-2"></i>العودة للمشاريع
+                    </a>
+                </div>
+
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <%= error %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <% } %>
+
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST" action="/projects/create" enctype="multipart/form-data">
+                            <!-- Language Tabs -->
+                            <ul class="nav nav-tabs mb-4" id="languageTabs">
+                                <li class="nav-item">
+                                    <button class="nav-link active" type="button" data-bs-toggle="tab" data-bs-target="#arabic-tab">
+                                        <i class="fas fa-language me-2"></i>العربية
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" type="button" data-bs-toggle="tab" data-bs-target="#english-tab">
+                                        <i class="fas fa-globe me-2"></i>English
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <!-- Arabic Tab -->
+                                <div class="tab-pane fade show active" id="arabic-tab">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">اسم المشروع (عربي) *</label>
+                                                <input type="text" class="form-control" name="nameAr" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">موقع المشروع (عربي) *</label>
+                                                <input type="text" class="form-control" name="locationAr" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">وصف المشروع (عربي)</label>
+                                        <textarea class="form-control" name="descriptionAr" rows="4" placeholder="وصف تفصيلي للمشروع..."></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- English Tab -->
+                                <div class="tab-pane fade" id="english-tab">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Project Name (English) *</label>
+                                                <input type="text" class="form-control" name="nameEn" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Project Location (English) *</label>
+                                                <input type="text" class="form-control" name="locationEn" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Project Description (English)</label>
+                                        <textarea class="form-control" name="descriptionEn" rows="4" placeholder="Detailed project description..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Common Fields -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">مدة المشروع *</label>
+                                        <input type="text" class="form-control" name="duration" required placeholder="مثال: 3 أسابيع، شهرين">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">حالة المشروع</label>
+                                        <select class="form-select" name="status">
+                                            <option value="active">نشط</option>
+                                            <option value="completed">مكتمل</option>
+                                            <option value="pending">في الانتظار</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Before Images -->
+                            <div class="mb-4">
+                                <label class="form-label">صور قبل التنفيذ</label>
+                                <input type="file" class="form-control" name="beforeImages" multiple accept="image/*" 
+                                       onchange="previewImages(this, 'beforeImagesPreview')">
+                                <div id="beforeImagesPreview" class="mt-2"></div>
+                            </div>
+
+                            <!-- After Images -->
+                            <div class="mb-4">
+                                <label class="form-label">صور بعد التنفيذ</label>
+                                <input type="file" class="form-control" name="afterImages" multiple accept="image/*" 
+                                       onchange="previewImages(this, 'afterImagesPreview')">
+                                <div id="afterImagesPreview" class="mt-2"></div>
+                            </div>
+
+                            <!-- Videos -->
+                            <div class="mb-4">
+                                <label class="form-label">فيديوهات المشروع</label>
+                                <input type="file" class="form-control" name="videos" multiple accept="video/*" 
+                                       onchange="previewImages(this, 'videosPreview')">
+                                <div id="videosPreview" class="mt-2"></div>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>حفظ المشروع
+                                </button>
+                                <a href="/projects" class="btn btn-secondary">
+                                    <i class="fas fa-times me-2"></i>إلغاء
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function previewImages(input, previewContainer) {
+            const files = input.files;
+            const container = document.getElementById(previewContainer);
+            container.innerHTML = '';
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const div = document.createElement('div');
+                    div.className = 'd-inline-block position-relative';
+                    
+                    if (file.type.startsWith('image/')) {
+                        div.innerHTML = `
+                            <img src="${e.target.result}" class="image-preview" alt="Preview">
+                            <div class="position-absolute top-0 start-0 bg-dark text-white px-2 py-1 rounded">${file.name}</div>
+                        `;
+                    }
+                    
+                    container.appendChild(div);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>

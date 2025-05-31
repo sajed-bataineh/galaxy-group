@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>galaxy group</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Montserrat' ;
+        }
+        .navbar {
+             background-color: #2a2829; 
+        }
+        .card { 
+            border: none; border-radius: 15px;
+             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .project-image { width: 80px;
+            height: 80px; object-fit: cover;
+            border-radius: 10px;
+            color: wh;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/dashboard">
+                <img class="mx-2 rounded-5" style="width: 60px;" src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="">
+                <p class="m-0">جالاكسي قروب</p>
+            </a>
+            <div class="navbar-nav me-auto">
+                <a class="nav-link text-white" href="/projects">المشاريع</a>
+                <a class="nav-link text-white" href="/clients">العملاء</a>
+            </div>
+            <form method="POST" action="/logout" class="d-inline">
+                <button type="submit" class="btn btn-outline-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i>خروج
+                </button>
+            </form>
+        </div>
+    </nav>

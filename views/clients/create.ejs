@@ -1,0 +1,169 @@
+<!-- views/clients/create.ejs -->
+<%- include('../../partial/dashboard.ejs') %>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <%- include('../../partial/sidebar.ejs') %>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2"><i class="fas fa-user-plus me-2"></i><%= title %></h1>
+                    <a href="/clients" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-right me-2"></i>العودة للعملاء
+                    </a>
+                </div>
+
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <%= error %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <% } %>
+
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST" action="/clients/create" enctype="multipart/form-data">
+                            <!-- Language Tabs -->
+                            <ul class="nav nav-tabs mb-4" id="languageTabs">
+                                <li class="nav-item">
+                                    <button class="nav-link active" type="button" data-bs-toggle="tab" data-bs-target="#arabic-tab">
+                                        <i class="fas fa-language me-2"></i>العربية
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" type="button" data-bs-toggle="tab" data-bs-target="#english-tab">
+                                        <i class="fas fa-globe me-2"></i>English
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <!-- Arabic Tab -->
+                                <div class="tab-pane fade show active" id="arabic-tab">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">اسم العميل (عربي) *</label>
+                                                <input type="text" class="form-control" name="nameAr" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">اسم الشركة (عربي)</label>
+                                                <input type="text" class="form-control" name="companyAr">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">العنوان (عربي)</label>
+                                        <textarea class="form-control" name="addressAr" rows="3" placeholder="العنوان التفصيلي..."></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">ملاحظات (عربي)</label>
+                                        <textarea class="form-control" name="notesAr" rows="3" placeholder="أي ملاحظات إضافية..."></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- English Tab -->
+                                <div class="tab-pane fade" id="english-tab">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Client Name (English) *</label>
+                                                <input type="text" class="form-control" name="nameEn" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Company Name (English)</label>
+                                                <input type="text" class="form-control" name="companyEn">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Address (English)</label>
+                                        <textarea class="form-control" name="addressEn" rows="3" placeholder="Detailed address..."></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Notes (English)</label>
+                                        <textarea class="form-control" name="notesEn" rows="3" placeholder="Any additional notes..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Common Fields -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">البريد الإلكتروني *</label>
+                                        <input type="email" class="form-control" name="email" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">رقم الهاتف *</label>
+                                        <input type="tel" class="form-control" name="phone" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">حالة العميل</label>
+                                        <select class="form-select" name="status">
+                                            <option value="active">نشط</option>
+                                            <option value="inactive">غير نشط</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Logo Upload -->
+                            <div class="mb-4">
+                                <label class="form-label">شعار الشركة/العميل</label>
+                                <input type="file" class="form-control" name="logo" accept="image/*" 
+                                       onchange="previewLogo(this)">
+                                <div id="logoPreview" class="mt-2"></div>
+                                <small class="form-text text-muted">يُفضل أن يكون الشعار بصيغة PNG أو JPG وبدقة عالية</small>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save me-2"></i>حفظ العميل
+                                </button>
+                                <a href="/clients" class="btn btn-secondary">
+                                    <i class="fas fa-times me-2"></i>إلغاء
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function previewLogo(input) {
+            const file = input.files[0];
+            const container = document.getElementById('logoPreview');
+            container.innerHTML = '';
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const div = document.createElement('div');
+                    div.className = 'd-inline-block position-relative';
+                    div.innerHTML = `
+                        <img src="${e.target.result}" class="logo-preview" alt="Logo Preview">
+                        <div class="position-absolute top-0 start-0 bg-dark text-white px-2 py-1 rounded">${file.name}</div>
+                    `;
+                    container.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
+

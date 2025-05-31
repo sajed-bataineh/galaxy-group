@@ -1,0 +1,129 @@
+
+<!-- views/dashboard.ejs -->
+<%- include('../partial/dashboard.ejs') %>
+
+<style>
+        .card { 
+            border: none;
+        }
+        .stats-card { 
+            background-color: #2a2829;
+            color: #ffc107;
+        }
+        .card-header{
+            background-color: #2a2829;
+        }
+</style>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+             
+            <%- include('../partial/sidebar.ejs') %>
+
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="page-header p-5">
+                    <div class="container">
+                        <h1 class="display-6"><i class="fa-solid fa-user-tie mx-3"></i><%= title %></h1>
+                        <p class="text-warning mx-3">مرحباً بك في لوحة التحكم الرئيسية</p>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card stats-card rounded-4 shadow">
+                            <div class=" text-center d-flex align-items-center justify-content-evenly p-3">
+                                <i class="fa-solid fa-list-check fa-2x"></i>
+                                <h3 class="m-0"><%= projectsCount %></h3>
+                                <p class="mb-0">إجمالي المشاريع</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card stats-card rounded-4 shadow">
+                            <div class="text-center d-flex align-items-center justify-content-evenly p-3">
+                                <i class="fa-solid fa-user-tie fa-2x"></i>
+                                <h3 class="m-0"><%= clientsCount %></h3>
+                                <p class="mb-0">إجمالي العملاء</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Projects and Clients -->
+                 <div class="container">
+                  <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card border shadow rounded-3">
+                            <div class="card-header text-white d-flex justify-content-center">
+                                <h5 class="mb-0"><i class="fa-solid fa-list-check mx-2"></i></i>المشاريع الأخيرة</h5>
+                            </div>
+                            <div class="card-body">
+                                <% if (recentProjects.length > 0) { %>
+                                    <% recentProjects.forEach(project => { %>
+                                        <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                            <div>
+                                                <h6 class="mb-1"><%= project.name.ar %></h6>
+                                                <small class="text-muted"><%= project.location.ar %></small>
+                                            </div>
+                                            <span class="badge bg-<%= project.status === 'completed' ? 'success' : project.status === 'active' ? 'primary' : 'warning' %>">
+                                                <%= project.status === 'completed' ? 'مكتمل' : project.status === 'active' ? 'نشط' : 'في الانتظار' %>
+                                            </span>
+                                        </div>
+                                        
+                                    <% }) %>
+                                    
+                                <% } else { %>
+                                    <p class="text-center text-muted">لا توجد مشاريع بعد</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="card border shadow rounded-3">
+                            <div class="card-header text-white d-flex justify-content-center">
+                                <h5 class="mb-0"><i class="fa-solid fa-user-tie mx-2"></i>العملاء الجدد</h5>
+                            </div>
+                            <div class="card-body">
+                                <% if (recentClients.length > 0) { %>
+                                    <% recentClients.forEach(client => { %>
+                                        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                                            <div class="d-flex align-items-center">
+                                                <% if (client.logo && client.logo.url) { %>
+                                                    <img src="<%= client.logo.url %>" alt="<%= client.name.ar %>" class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                                                <% } else { %>
+                                                    <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                                        <i class="fas fa-user text-white"></i>
+                                                    </div>
+                                                <% } %>
+                                                <div>
+                                                    <h6 class="mb-1"><%= client.name.ar %></h6>
+                                                    <small class="text-muted"><%= client.email %></small>
+                                                </div>
+                                            </div>
+                                            <span class="badge bg-<%= client.status === 'active' ? 'success' : 'secondary' %>">
+                                                <%= client.status === 'active' ? 'نشط' : 'غير نشط' %>
+                                            </span>
+                                        </div>
+                                    <% }) %>
+                                    
+                                <% } else { %>
+                                    <p class="text-center text-muted">لا يوجد عملاء بعد</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 </div>
+                
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

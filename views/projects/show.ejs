@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= project.name.ar %> - إدارة المطابخ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: #f8f9fa; 
+        }
+        .navbar { 
+            background-color: #2a2829; 
+        }
+        .card { 
+            border: none; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            margin-bottom: 20px;
+        }
+        .project-image { 
+            width: 100%; 
+            height: 200px; 
+            object-fit: cover; 
+            border-radius: 10px; 
+            margin-bottom: 10px;
+        }
+        .project-video { 
+            width: 100%; 
+            height: 200px; 
+            border-radius: 10px; 
+            margin-bottom: 10px;
+        }
+        .badge-status {
+            font-size: 1rem;
+            padding: 10px 15px;
+        }
+        .info-card {
+            background-color: #2a2829;
+            color: #ffc107;
+        }
+        .gallery-item {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        .modal-content {
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/dashboard">
+                <img class="mx-2 rounded-5" style="width: 60px;" src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="">
+                <p class="m-0">جالاكسي قروب</p>
+            </a>
+            <div class="navbar-nav me-auto">
+                <a class="nav-link active" href="/projects">المشاريع</a>
+                <a class="nav-link" href="/clients">العملاء</a>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="/projects" class="btn btn-outline-warning">
+                    <i class="fas fa-arrow-right me-2"></i>العودة للمشاريع
+                </a>
+                <form method="POST" action="/logout" class="d-inline">
+                    <button type="submit" class="btn btn-outline-danger">
+                        <i class="fas fa-sign-out-alt me-2"></i>خروج
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Project Header -->
+        <div class="card info-card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="display-6 mb-2">
+                            <i class="fas fa-project-diagram me-3"></i>
+                            <%= project.name.ar %>
+                        </h1>
+                        <% if (project.name.en) { %>
+                            <h4 class="mb-3 opacity-75"><%= project.name.en %></h4>
+                        <% } %>
+                        <p class="lead mb-0">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            <%= project.location.ar %>
+                            <% if (project.location.en) { %>
+                                (<%= project.location.en %>)
+                            <% } %>
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="mb-3">
+                            <span class="badge badge-status bg-<%= project.status === 'completed' ? 'success' : project.status === 'active' ? 'primary' : 'warning' %>">
+                                <%= project.status === 'completed' ? 'مكتمل' : project.status === 'active' ? 'نشط' : 'في الانتظار' %>
+                            </span>
+                        </div>
+                        <p class="mb-2">
+                            <i class="fas fa-clock me-2"></i>
+                            مدة المشروع: <strong><%= project.duration %></strong>
+                        </p>
+                        <p class="mb-0">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            تاريخ الإنشاء: <%= new Date(project.createdAt).toLocaleDateString('ar-EG') %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Actions -->
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex gap-2">
+                    <a href="/projects/<%= project._id %>/edit" class="btn btn-warning">
+                        <i class="fas fa-edit me-2"></i>تعديل المشروع
+                    </a>
+                    <button onclick="deleteProject('<%= project._id %>')" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i>حذف المشروع
+                    </button>
+                    <a href="/projects" class="btn btn-secondary">
+                        <i class="fas fa-list me-2"></i>جميع المشاريع
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Description -->
+        <% if (project.description && (project.description.ar || project.description.en)) { %>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>وصف المشروع</h5>
+                </div>
+                <div class="card-body">
+                    <% if (project.description.ar) { %>
+                        <div class="mb-3">
+                            <h6>الوصف بالعربية:</h6>
+                            <p><%= project.description.ar %></p>
+                        </div>
+                    <% } %>
+                    <% if (project.description.en) { %>
+                        <div>
+                            <h6>English Description:</h6>
+                            <p><%= project.description.en %></p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+
+        <div class="row">
+            <!-- Before Images -->
+            <% if (project.beforeImages && project.beforeImages.length > 0) { %>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-images me-2"></i>
+                                صور قبل التنفيذ (<%= project.beforeImages.length %>)
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <% project.beforeImages.forEach((image, index) => { %>
+                                    <div class="col-md-6 mb-3">
+                                        <img src="<%= image.url %>" 
+                                             alt="قبل التنفيذ <%= index + 1 %>" 
+                                             class="project-image gallery-item"
+                                             data-bs-toggle="modal" 
+                                             data-bs-target="#imageModal"
+                                             data-image="<%= image.url %>"
+                                             data-title="قبل التنفيذ <%= index + 1 %>">
+                                    </div>
+                                <% }) %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+
+            <!-- After Images -->
+            <% if (project.afterImages && project.afterImages.length > 0) { %>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-images me-2"></i>
+                                صور بعد التنفيذ (<%= project.afterImages.length %>)
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <% project.afterImages.forEach((image, index) => { %>
+                                    <div class="col-md-6 mb-3">
+                                        <img src="<%= image.url %>" 
+                                             alt="بعد التنفيذ <%= index + 1 %>" 
+                                             class="project-image gallery-item"
+                                             data-bs-toggle="modal" 
+                                             data-bs-target="#imageModal"
+                                             data-image="<%= image.url %>"
+                                             data-title="بعد التنفيذ <%= index + 1 %>">
+                                    </div>
+                                <% }) %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+
+        <!-- Videos -->
+        <% if (project.videos && project.videos.length > 0) { %>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-video me-2"></i>
+                        فيديوهات المشروع (<%= project.videos.length %>)
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <% project.videos.forEach((video, index) => { %>
+                            <div class="col-lg-4 col-md-6 mb-3">
+                                <% if (video.title && (video.title.ar || video.title.en)) { %>
+                                    <h6>
+                                        <%= video.title.ar || video.title.en %>
+                                        <% if (video.title.ar && video.title.en) { %>
+                                            <br><small class="text-muted"><%= video.title.en %></small>
+                                        <% } %>
+                                    </h6>
+                                <% } %>
+                                <video controls class="project-video">
+                                    <source src="<%= video.url %>" type="video/mp4">
+                                    المتصفح لا يدعم تشغيل الفيديو
+                                </video>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- No Media Message -->
+        <% if ((!project.beforeImages || project.beforeImages.length === 0) && 
+               (!project.afterImages || project.afterImages.length === 0) && 
+               (!project.videos || project.videos.length === 0)) { %>
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-image fa-5x text-muted mb-3"></i>
+                    <h4 class="text-muted">لا توجد صور أو فيديوهات لهذا المشروع</h4>
+                    <p class="text-muted">يمكنك إضافة الصور والفيديوهات عن طريق تعديل المشروع</p>
+                    <a href="/projects/<%= project._id %>/edit" class="btn btn-primary">
+                        <i class="fas fa-edit me-2"></i>تعديل المشروع
+                    </a>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalTitle">عرض الصورة</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" src="" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageModal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('imageModalTitle');
+
+            imageModal.addEventListener('show.bs.modal', function(event) {
+                const trigger = event.relatedTarget;
+                const imageSrc = trigger.getAttribute('data-image');
+                const imageTitle = trigger.getAttribute('data-title') || 'عرض الصورة';
+                
+                modalImage.src = imageSrc;
+                modalImage.alt = imageTitle;
+                modalTitle.textContent = imageTitle;
+            });
+        });
+
+        function deleteProject(id) {
+            if (confirm('هل أنت متأكد من حذف هذا المشروع؟ سيتم حذف جميع الصور والفيديوهات المرتبطة به.')) {
+                fetch(`/projects/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('تم حذف المشروع بنجاح');
+                        window.location.href = '/projects';
+                    } else {
+                        alert('حدث خطأ أثناء الحذف: ' + (data.message || 'خطأ غير معروف'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('حدث خطأ أثناء الحذف');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
