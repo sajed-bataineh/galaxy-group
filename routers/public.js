@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const Booking = require('../models/Booking');
-const Contact = require('../models/Contact');
+const Contact = require('../models/contact');
 
 // معالجة إرسال نموذج حجز الاستشارة
 router.post('/book-consultation', async (req, res) => {

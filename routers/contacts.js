@@ -2,7 +2,7 @@
 // routers/contacts.js - راوتر رسائل التواصل
 const express = require('express');
 const router = express.Router();
-const Contact = require('../models/Contact');
+const Contact = require('../models/contact');
 
 // عرض جميع الرسائل في الداشبورد
 router.get('/', async (req, res) => {
