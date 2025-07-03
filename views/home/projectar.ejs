@@ -1,0 +1,175 @@
+<%- include('../../partial/mainheadar.ejs') %>
+<style>
+.work-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.main-project-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.additional-images {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    max-width: 150px;
+}
+
+.small-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.small-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.more-images-indicator {
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+.project-location,
+.project-duration {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #ccc;
+}
+
+.project-location i,
+.project-duration i {
+    margin-right: 5px;
+    color: #007bff;
+}
+
+.images-count {
+    font-size: 12px;
+    color: #007bff;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.images-count i {
+    margin-right: 5px;
+}
+
+.work-card:hover .main-project-image {
+    transform: scale(1.05);
+}
+
+.work-card:hover .additional-images {
+    opacity: 1;
+}
+</style>
+
+<div class="headpage">
+    <div class="video">
+        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748487583/482203992_1153061593186920_4990799730796527867_n_eeiqzf.jpg" alt="">
+    </div>
+    <div class="backround"></div>
+    <div class="text h-100 p-3">
+        <div class="row align-items-center h-75 mt-5">
+            <div class="col-12 col-md-6">
+                <p class="hero-text stagger-1">مجموعة جالاكسي</p>
+                <h1 class="hero-text stagger-2"><strong>المشاريع</strong></h1>
+                <h5 class="mt-5 hero-text">الرئيسية/المشاريع</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid sections our-work-section mb-5 mt-5" data-section="اعمالنا">
+    <div class="row p-3">
+        <div class="col-12 text-center mb-5">
+            <h1 class="slide-up mb-4">تصاميم مطابخ جالاكسي المميزة</h1>
+            <p class="slide-up">ابتكارات مطابخ جالاكسي - اكتشف مجموعة مشاريع المطابخ التي قمنا بتحويلها في مختلف أنحاء الأردن. كل مطبخ نصممه يحكي قصة فريدة، حيث نمزج بين الإلهام المحلي والطابع العصري لنقدم مساحات تجمع بين الأناقة والوظائف والمتانة بما يناسب نمط الحياة في منطقتنا.</p>
+        </div>
+    </div>
+
+    <div class="row p-3">
+        <% if (projects && projects.length > 0) { %>
+            <% projects.forEach((project, index) => { %>
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in <% if (index > 0) { %>stagger-<%= index %><% } %>">
+                        <div class="work-image">
+                            <% if (project.afterImages && project.afterImages.length > 0) { %>
+                                <img src="<%= project.afterImages[0].url %>" alt="<%= project.name.ar %>" class="main-project-image">
+                                
+                                <% if (project.afterImages.length > 1) { %>
+                                    <div class="additional-images">
+                                        <% project.afterImages.slice(1, 4).forEach((image, imgIndex) => { %>
+                                            <div class="small-image small-image-<%= imgIndex + 1 %>">
+                                                <img src="<%= image.url %>" alt="<%= project.name.ar %> - صورة <%= imgIndex + 2 %>">
+                                            </div>
+                                        <% }); %>
+
+                                        <% if (project.afterImages.length > 4) { %>
+                                            <div class="more-images-indicator">
+                                                +<%= project.afterImages.length - 4 %> صور
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                <% } %>
+                            <% } else if (randomImages && randomImages.length > index) { %>
+                                <img src="<%= randomImages[index].url %>" alt="<%= project.name.ar %>" class="main-project-image">
+                            <% } else { %>
+                                <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="<%= project.name.ar %>" class="main-project-image">
+                            <% } %>
+
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3><%= project.name.ar %></h3>
+                                    <p class="project-description">
+                                        <% if (project.description && project.description.ar) { %>
+                                            <%= project.description.ar.substring(0, 120) %>...
+                                        <% } else { %>
+                                            تحويل رائع لمطبخ في <%= project.location.ar %> يتميز بتصميم عصري ولمسات نهائية عالية الجودة. هذا المشروع يجمع بين الأناقة والعملية ليتناسب مع أسلوب الحياة المعاصر.
+                                        <% } %>
+                                    </p>
+                                    <% if (project.afterImages && project.afterImages.length > 1) { %>
+                                        <p class="images-count">
+                                            <i class="fa-solid fa-images"></i> <%= project.afterImages.length %> صور
+                                        </p>
+                                    <% } %>
+                                    <div class="work-arrow">
+                                        <a href="/project/<%= project._id %>/ar"><i class="fa-solid fa-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <!-- محتوى بديل إذا لم توجد مشاريع -->
+            <div class="col-12 text-center">
+                <p>لا توجد مشاريع لعرضها حالياً.</p>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+
+<%- include('../../partial/footerar.ejs') %>

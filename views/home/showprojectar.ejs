@@ -1,4 +1,4 @@
-<%- include('../../partial/mainhead.ejs') %>
+<%- include('../../partial/mainheadar.ejs') %>
 <style>
 .details{
     background-color: #fefcef ;
@@ -101,79 +101,80 @@
 </style>
 
 <div class="headpage">
-        <div class="video">
-            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748487583/482203992_1153061593186920_4990799730796527867_n_eeiqzf.jpg" alt="">
-        </div>
-        <div class="backround"></div>
-        <div class="text h-100 p-3">
-            <div class="row align-items-center h-75 mt-5">
-                <div class="col-12 col-md-6">
-                   <p class="hero-text stagger-1">Galaxy Group</p>
-                   <h1 class="hero-text stagger-2"><strong>Project Details</strong></h1>
-                   <% if (project) { %>
-                       <h5 class="mt-5 hero-text">Home/Projects/<%= project.name.en %></h5>
-                   <% } else { %>
-                       <h5 class="mt-5 hero-text">Home/Projects/Project Details</h5>
-                   <% } %>
-                </div>
+    <div class="video">
+        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748487583/482203992_1153061593186920_4990799730796527867_n_eeiqzf.jpg" alt="">
+    </div>
+    <div class="backround"></div>
+    <div class="text h-100 p-3">
+        <div class="row align-items-center h-75 mt-5">
+            <div class="col-12 col-md-6">
+                <p class="hero-text stagger-1">مجموعة جالاكسي</p>
+                <h1 class="hero-text stagger-2"><strong>تفاصيل المشروع</strong></h1>
+                <% if (project) { %>
+                    <h5 class="mt-5 hero-text">الرئيسية / المشاريع / <%= project.name.ar %></h5>
+                <% } else { %>
+                    <h5 class="mt-5 hero-text">الرئيسية / المشاريع / تفاصيل المشروع</h5>
+                <% } %>
             </div>
         </div>
+    </div>
 </div>
+
 
 <div class="container">
     <div class="row mt-5 mb-5">
         <div class="col-12 col-lg-4">
             <div class="details rounded-4 py-5 px-4 mb-4">
                 <div class="col-12">
-                    <h4>Project Name</h4>
+                    <h4>اسم المشروع</h4>
                     <% if (project) { %>
-                        <p><%= project.name.en %></p>
+                        <p><%= project.name.ar %></p>
                     <% } else { %>
-                        <p>Project Name Not Available</p>
+                        <p>اسم المشروع غير متوفر</p>
                     <% } %>
                 </div>
                 <div class="line w-100 d-flex justify-content-center">
                         <span class="bg-secondary"></span>
                 </div>
                 <div class="col-12 mt-4">
-                    <h4>Created Date</h4>
+                    <h4>تاريخ الإنشاء</h4>
                     <% if (project && project.createdAt) { %>
-                        <p><%= new Date(project.createdAt).toLocaleDateString('en-GB') %></p>
+                        <p><%= new Date(project.createdAt).toLocaleDateString('ar-EG') %></p>
                     <% } else { %>
-                        <p>Date Not Available</p>
+                        <p>التاريخ غير متوفر</p>
                     <% } %>
                 </div>
                 <div class="line w-100 d-flex justify-content-center">
                         <span class="bg-secondary"></span>
                 </div>
                 <div class="col-12 mt-4">
-                    <h4>Location</h4>
+                    <h4>الموقع</h4>
                     <% if (project) { %>
-                        <p><%= project.location.en %></p>
+                        <p><%= project.location.ar %></p>
                     <% } else { %>
-                        <p>Location Not Available</p>
+                        <p>الموقع غير متوفر</p>
                     <% } %>
                 </div>
                 <div class="line w-100 d-flex justify-content-center">
                     <span class="bg-secondary"></span>
                 </div>
                 <div class="col-12 mt-4">
-                    <h4>Project Duration</h4>
+                    <h4>مدة المشروع</h4>
                     <% if (project && project.duration) { %>
                         <p><%= project.duration %></p>
                     <% } else { %>
-                        <p>Duration Not Available</p>
+                        <p>المدة غير متوفرة</p>
                     <% } %>
                 </div>
                 <div class="line w-100 d-flex justify-content-center">
                     <span class="bg-secondary"></span>
                 </div>
                 <div class="col-12 mt-4">
-                    <h4>Project Status</h4>
+                    <h4>حالة المشروع</h4>
                     <% if (project && project.status) { %>
                         <p class="text-capitalize"><%= project.status %></p>
                     <% } else { %>
-                        <p>Status Not Available</p>
+                        <p>الحالة غير متوفرة</p>
                     <% } %>
                 </div>
                 <% if (project && project.afterImages) { %>
@@ -181,43 +182,47 @@
                         <span class="bg-secondary"></span>
                     </div>
                     <div class="col-12 mt-4">
-                        <h4>Total Images</h4>
-                        <p><%= project.afterImages.length %> Images</p>
+                        <h4>إجمالي الصور</h4>
+                        <p><%= project.afterImages.length %> صورة</p>
                     </div>
                 <% } %>
             </div>
         </div>
+
         <div class="col-12 col-lg-8">
             <div class="row">
                 <div class="col-12">
                     <% if (project && project.afterImages && project.afterImages.length > 0) { %>
                         <div style="overflow: hidden; height: 300px; width: 100%;" class="firs-timg rounded-4">
-                            <img style="object-fit: cover;" class="w-100 h-100" src="<%= project.afterImages[0].url %>" alt="<%= project.name.en %>" onclick="openModal('<%= project.afterImages[0].url %>')">
+                            <img style="object-fit: cover;" class="w-100 h-100" src="<%= project.afterImages[0].url %>" alt="<%= project.name.ar %>" onclick="openModal('<%= project.afterImages[0].url %>')">
                         </div>
                     <% } else { %>
                         <div style="overflow: hidden; height: 300px; width: 100%;" class="firs-timg rounded-4">
-                            <img style="object-fit: cover;" class="w-100 h-100" src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748487583/482203992_1153061593186920_4990799730796527867_n_eeiqzf.jpg" alt="Project Image">
+                            <img style="object-fit: cover;" class="w-100 h-100" src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748487583/482203992_1153061593186920_4990799730796527867_n_eeiqzf.jpg" alt="صورة المشروع">
                         </div>
                     <% } %>
                 </div>
+
                 <div class="col-12 mt-5 mb-3">
-                    <% if (project && project.description && project.description.en) { %>
+                    <% if (project && project.description && project.description.ar) { %>
+                        <p class="description text-secondary mt-3" dir="rtl"><%= project.description.ar %></p>
+                    <% } else if (project && project.description && project.description.en) { %>
                         <p class="description text-secondary"><%= project.description.en %></p>
                     <% } else { %>
-                        <p class="description text-secondary">This is a beautiful kitchen transformation project featuring modern design elements and premium finishes. The project perfectly balances style with functionality for contemporary living, creating a space that meets all the client's needs while maintaining aesthetic excellence.</p>
+                        <p class="description text-secondary">هذا مشروع تجديد جميل لمطبخ حديث يتضمن عناصر تصميم عصرية وتشطيبات فاخرة. يجمع المشروع بين الجمال والوظيفة لتوفير مساحة تلبي جميع احتياجات العميل مع الحفاظ على جاذبية التصميم.</p>
                     <% } %>
                 </div>
             </div>
 
-            <!-- Gallery Section -->
+            <!-- معرض الصور -->
             <% if (project && project.afterImages && project.afterImages.length > 1) { %>
                 <div class="row">
                     <div class="col-12">
-                        <h4 class="mb-4">Project Gallery</h4>
+                        <h4 class="mb-4">معرض المشروع</h4>
                         <div class="gallery-grid">
                             <% project.afterImages.slice(1).forEach((image, index) => { %>
                                 <div class="gallery-item">
-                                    <img src="<%= image.url %>" alt="<%= project.name.en %> - Image <%= index + 2 %>" onclick="openModal('<%= image.url %>')">
+                                    <img src="<%= image.url %>" alt="<%= project.name.ar %> - صورة <%= index + 2 %>" onclick="openModal('<%= image.url %>')">
                                 </div>
                             <% }); %>
                         </div>
@@ -225,7 +230,7 @@
                 </div>
             <% } %>
 
-            <!-- Video Section -->
+            <!-- قسم الفيديو -->
             <% if (project && project.videos && project.videos.length > 0) { %>
                 <div class="row">
                     <% project.videos.forEach(v => {%>
@@ -240,6 +245,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Image Modal -->
 <div id="imageModal" class="image-modal">
@@ -273,4 +279,4 @@ document.addEventListener('keydown', function(event) {
 });
 </script>
 
-<%- include('../../partial/footer.ejs') %>
+<%- include('../../partial/footerar.ejs') %>

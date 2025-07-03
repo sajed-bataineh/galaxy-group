@@ -1,5 +1,88 @@
 <%- include('../../partial/mainhead.ejs') %>
+<style>
+    .work-image {
+    position: relative;
+    overflow: hidden;
+}
 
+.main-project-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.additional-images {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    max-width: 150px;
+}
+
+.small-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.small-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.more-images-indicator {
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+.project-location,
+.project-duration {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #ccc;
+}
+
+.project-location i,
+.project-duration i {
+    margin-right: 5px;
+    color: #007bff;
+}
+
+.images-count {
+    font-size: 12px;
+    color: #007bff;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.images-count i {
+    margin-right: 5px;
+}
+
+.work-card:hover .main-project-image {
+    transform: scale(1.05);
+}
+
+.work-card:hover .additional-images {
+    opacity: 1;
+}
+</style>
 <div class="head">
         <div class="video">
             <video src="https://res.cloudinary.com/dd03x0wle/video/upload/v1748344393/FDownloader.Net_AQM4rGd67_NJJI5ZBrGTziSWIwIY8aMY3ijmUuibwahbgVUjSDCj2At3I-ELHB3RgNVPHDMG4fRDc8F3GccgP-qp_720p__HD_wokuf4.mp4" autoplay muted loop></video>
@@ -25,90 +108,67 @@
                 </a>
             </div>
         </div>
-    </div>
+</div>
 
-    <div class="container-fluid costomer mb-5 fade-in">
-        <div class="row px-2 py-4 align-items-center">
-           <div class="col-12 col-md-2 scale-in">
-             <p class="number">+200</p>
-           </div>
-           <div class="col-12  col-md-2 happy slide-left">
-              <p>Happy Customers</p>
-           </div>
-           <div class="col-12 col-md-4 d-flex justify-content-center fade-in">
-              <p>Together, we'll bring your kitchen dreams to life! From custom kitchen designs to seamless installations, Galaxy Group's professional team is ready to craft a space that suits your taste, lifestyle, and the unique needs of homes in Jordan.</p>
-           </div>
-           <div class="col-12 col-md-4 position-relative d-flex justify-content-center slide-right">
-              <div class="contact-card p-3">
-                 <h3>Ready to transform your kitchen space ?</h3>
-                 <div class="line mt-5"></div>
-                 <p>Let Galaxy Group bring function, style, and innovation into the heart of your home.
-                 Contact us today for a free consultation and discover how we can turn your vision into reality.</p>
-                 <p class="mt-4"><a href="" class="rounded-5 bg-white py-2 px-4 text-black">Learn More</a></p>
-              </div>
-           </div>
+<div class="container-fluid costomer mb-5 fade-in">
+    <div class="row px-2 py-4 align-items-center">
+       <div class="col-12 col-md-2 scale-in">
+         <p class="number">+200</p>
+       </div>
+       <div class="col-12  col-md-2 happy slide-left">
+          <p>Happy Customers</p>
+       </div>
+       <div class="col-12 col-md-4 d-flex justify-content-center fade-in">
+          <p>Together, we'll bring your kitchen dreams to life! From custom kitchen designs to seamless installations, Galaxy Group's professional team is ready to craft a space that suits your taste, lifestyle, and the unique needs of homes in Jordan.</p>
+       </div>
+       <div class="col-12 col-md-4 position-relative d-flex justify-content-center slide-right">
+          <div class="contact-card p-3">
+             <h3>Ready to transform your kitchen space ?</h3>
+             <div class="line mt-5"></div>
+             <p>Let Galaxy Group bring function, style, and innovation into the heart of your home.
+             Contact us today for a free consultation and discover how we can turn your vision into reality.</p>
+             <p class="mt-4"><a href="" class="rounded-5 bg-white py-2 px-4 text-black">Learn More</a></p>
+          </div>
+       </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="sections p-3 mb-5" data-section="Clients">
+        <div class="row mt-5">
+             <div class="col-12 col-md-6 slide-left ">
+                <h3>Our Trusted Partners</h3>
+                <h1>Redesigning kitchens in Jordan since 1999</h1>
+            </div>
+            <div class="col-12 col-md-6 slide-right">
+                <p>From luxury hotels to corporate headquarters and private homes, Galaxy Group proudly serves Jordan's most distinguished clients. Our portfolio includes partnerships with leading companies, prestigious institutions, and homeowners who trust us to design kitchens that blend elegance with functionality.</p>
+            </div>
+        </div>
+        <div class="line-news mt-3 mb-3 d-flex align-items-center fade-in">
+            <div class="clients-container">
+                <!-- First set of clients -->
+                
+                 <% if (clients && clients.length > 0) { %>
+                     <% clients.forEach(client => { %>
+                         <% if (client.logo && client.logo.url) { %>
+                             <div class="client">
+                                 <img src="<%= client.logo.url %>" alt="<%= client.name.ar %>" class="client-logo">
+                             </div>
+                         <% } %>
+                     <% }); %>
+                 <% } %>
+                 <% if (clients && clients.length > 0) { %>
+                     <% clients.forEach(client => { %>
+                         <% if (client.logo && client.logo.url) { %>
+                             <div class="client">
+                                 <img src="<%= client.logo.url %>" alt="<%= client.name.ar %>" class="client-logo">
+                             </div>
+                         <% } %>
+                     <% }); %>
+                 <% } %>
+             </div> 
         </div>
     </div>
-
-    <div class="container">
-       <div class="sections p-3 mb-5" data-section="Clients">
-           <div class="row mt-5">
-                <div class="col-12 col-md-6 slide-left ">
-                   <h3>Our Trusted Partners</h3>
-                   <h1>Redesigning kitchens in Jordan since 1999</h1>
-               </div>
-               <div class="col-12 col-md-6 slide-right">
-                   <p>From luxury hotels to corporate headquarters and private homes, Galaxy Group proudly serves Jordan's most distinguished clients. Our portfolio includes partnerships with leading companies, prestigious institutions, and homeowners who trust us to design kitchens that blend elegance with functionality.</p>
-               </div>
-           </div>
-           <div class="line-news mt-3 mb-3 d-flex align-items-center fade-in">
-               <div class="clients-container">
-                   <!-- First set of clients -->
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                   <div class="client">
-                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="Client Logo">
-                   </div>
-                </div>
-           </div>
-       </div>
     <!-- About Section -->
     <div class="container sections about-section mb-5" data-section="About">
         <div class="row p-3">
@@ -137,7 +197,11 @@
             </div>
             <div class="col-12 col-md-6 slide-right">
                 <div class="about-image-container">
-                    <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Excellence" class="about-image">
+                    <% if (randomImages && randomImages.length > 0) { %>
+                        <img src="<%= randomImages[0].url %>" alt="Kitchen Excellence" class="about-image">
+                    <% } else { %>
+                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Excellence" class="about-image">
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -156,7 +220,11 @@
             <div class="col-12 col-md-4 mb-4">
                 <div class="service-card scale-in">
                     <div class="service-image">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Design & Planning">
+                        <% if (randomImages && randomImages.length > 1) { %>
+                            <img src="<%= randomImages[1].url %>" alt="Kitchen Design & Planning">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Design & Planning">
+                        <% } %>
                         <div class="service-overlay">
                             <div class="service-content">
                                 <h3>Kitchen Design & Planning</h3>
@@ -173,7 +241,11 @@
             <div class="col-12 col-md-4 mb-4">
                 <div class="service-card scale-in stagger-2">
                     <div class="service-image">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Maintenance">
+                        <% if (randomImages && randomImages.length > 2) { %>
+                            <img src="<%= randomImages[2].url %>" alt="Kitchen Maintenance">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Maintenance">
+                        <% } %>
                         <div class="service-overlay">
                             <div class="service-content">
                                 <h3>Kitchen Maintenance</h3>
@@ -190,7 +262,11 @@
             <div class="col-12 col-md-4 mb-4">
                 <div class="service-card scale-in stagger-3">
                     <div class="service-image">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Equipment Care">
+                        <% if (randomImages && randomImages.length > 3) { %>
+                            <img src="<%= randomImages[3].url %>" alt="Kitchen Equipment Care">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Equipment Care">
+                        <% } %>
                         <div class="service-overlay">
                             <div class="service-content">
                                 <h3>Kitchen Equipment Care & Hygiene Solutions</h3>
@@ -217,13 +293,25 @@
             <div class="col-12 col-md-6 slide-right">
                 <div class="expertise-images">
                     <div class="exp-img img-4 scale-in stagger-3">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Design 4">
+                        <% if (randomImages && randomImages.length > 4) { %>
+                            <img src="<%= randomImages[4].url %>" alt="Kitchen Design 4">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Design 4">
+                        <% } %>
                     </div>
                     <div class="exp-img img-5 scale-in stagger-4">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Design 5">
+                        <% if (randomImages && randomImages.length > 5) { %>
+                            <img src="<%= randomImages[5].url %>" alt="Kitchen Design 5">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Design 5">
+                        <% } %>
                     </div>
                     <div class="exp-img img-6 scale-in stagger-5">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Design 6">
+                        <% if (randomImages && randomImages.length > 6) { %>
+                            <img src="<%= randomImages[6].url %>" alt="Kitchen Design 6">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Design 6">
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -316,7 +404,11 @@
     </div>
 
     <!-- Our Work Section -->
-    <div class="container-fluid sections our-work-section mb-5" data-section="Our Work">
+   
+
+
+</div>
+ <div class="container-fluid sections our-work-section mb-5" data-section="Our Work">
         <div class="row p-3">
             <div class="col-12 text-center mb-5">
                 <h1 class="slide-up mb-4">Galaxy Group's Signature Kitchen Designs</h1>
@@ -325,109 +417,187 @@
         </div>
         
         <div class="row p-3">
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="work-card scale-in">
-                    <div class="work-image">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 1">
-                        <div class="work-overlay">
-                            <div class="work-content">
-                                <h3>Ahmed Al-Rashid Family Kitchen</h3>
-                                <p>A modern kitchen transformation in Amman featuring elegant marble countertops, custom cabinetry, and state-of-the-art appliances. This project perfectly balances traditional Jordanian hospitality with contemporary design.</p>
-                                <div class="work-arrow">
-                                    <i class="fa-solid fa-arrow-right"></i>
+            <% if (projects && projects.length > 0) { %>
+                <% projects.forEach((project, index) => { %>
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="work-card scale-in <% if (index > 0) { %>stagger-<%= index %><% } %>">
+                            <div class="work-image">
+                                <!-- عرض صور متعددة من نفس المشروع -->
+                                <% if (project.afterImages && project.afterImages.length > 0) { %>
+                                    <!-- الصورة الرئيسية -->
+                                    <img src="<%= project.afterImages[0].url %>" alt="<%= project.name.en %>" class="main-project-image">
+                                    
+                                    <!-- صور إضافية إذا كان المشروع يحتوي على أكثر من صورة -->
+                                    <% if (project.afterImages.length > 1) { %>
+                                        <div class="additional-images">
+                                            <% project.afterImages.slice(1, 4).forEach((image, imgIndex) => { %>
+                                                <div class="small-image small-image-<%= imgIndex + 1 %>">
+                                                    <img src="<%= image.url %>" alt="<%= project.name.en %> - Image <%= imgIndex + 2 %>">
+                                                </div>
+                                            <% }); %>
+                                            
+                                            <!-- إذا كان هناك أكثر من 4 صور، اعرض عداد -->
+                                            <% if (project.afterImages.length > 4) { %>
+                                                <div class="more-images-indicator">
+                                                    +<%= project.afterImages.length - 4 %>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                    <% } %>
+                                <% } else if (randomImages && randomImages.length > index + 7) { %>
+                                    <img src="<%= randomImages[index + 7].url %>" alt="<%= project.name.en %>" class="main-project-image">
+                                <% } else { %>
+                                    <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="<%= project.name.en %>" class="main-project-image">
+                                <% } %>
+                                
+                                <div class="work-overlay">
+                                    <div class="work-content">
+                                        <h3><%= project.name.en %></h3>
+                                        
+                                        <p class="project-description">
+                                            <% if (project.description && project.description.en) { %>
+                                                <%= project.description.en.substring(0, 120) %>...
+                                            <% } else { %>
+                                                A beautiful kitchen transformation in <%= project.location.en %> featuring modern design elements and premium finishes. This project perfectly balances style with functionality for contemporary living.
+                                            <% } %>
+                                        </p>
+                                        <% if (project.afterImages && project.afterImages.length > 1) { %>
+                                            <p class="images-count">
+                                                <i class="fa-solid fa-images"></i> <%= project.afterImages.length %> Images
+                                            </p>
+                                        <% } %>
+                                        <div class="work-arrow">
+                                            <a href="/project/<%= project._id %>"><i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <!-- Fallback content if no projects available -->
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 1" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>Ahmed Al-Rashid Family Kitchen</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> Amman, Jordan
+                                    </p>
+                                    <p class="project-description">A modern kitchen transformation in Amman featuring elegant marble countertops, custom cabinetry, and state-of-the-art appliances. This project perfectly balances traditional Jordanian hospitality with contemporary design.</p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="work-card scale-in stagger-1">
-                    <div class="work-image">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 2">
-                        <div class="work-overlay">
-                            <div class="work-content">
-                                <h3>Fatima Hassan Villa Kitchen</h3>
-                                <p>An luxurious open-plan kitchen in Abdoun featuring premium finishes, smart storage solutions, and a beautiful island design. This space brings families together while maintaining elegant sophistication.</p>
-                                <div class="work-arrow">
-                                    <i class="fa-solid fa-arrow-right"></i>
+                
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in stagger-1">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 2" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>Fatima Hassan Villa Kitchen</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> Abdoun, Jordan
+                                    </p>
+                                    <p class="project-description">An luxurious open-plan kitchen in Abdoun featuring premium finishes, smart storage solutions, and a beautiful island design. This space brings families together while maintaining elegant sophistication.</p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="work-card scale-in stagger-2">
-                    <div class="work-image">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 3">
-                        <div class="work-overlay">
-                            <div class="work-content">
-                                <h3>Omar Khalil Apartment Kitchen</h3>
-                                <p>A compact yet functional kitchen design in West Amman maximizing every inch of space. Features clever storage solutions, modern appliances, and a timeless color palette perfect for urban living.</p>
-                                <div class="work-arrow">
-                                    <i class="fa-solid fa-arrow-right"></i>
+                
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in stagger-2">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 3" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>Omar Khalil Apartment Kitchen</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> West Amman, Jordan
+                                    </p>
+                                    <p class="project-description">A compact yet functional kitchen design in West Amman maximizing every inch of space. Features clever storage solutions, modern appliances, and a timeless color palette perfect for urban living.</p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="work-card scale-in stagger-3">
-                    <div class="work-image">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 4">
-                        <div class="work-overlay">
-                            <div class="work-content">
-                                <h3>Layla Mansour Traditional Kitchen</h3>
-                                <p>A beautiful blend of traditional Jordanian elements with modern functionality. Located in Jabal Amman, this kitchen features handcrafted details, natural materials, and warm earth tones.</p>
-                                <div class="work-arrow">
-                                    <i class="fa-solid fa-arrow-right"></i>
+                
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in stagger-3">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 4" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>Layla Mansour Traditional Kitchen</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> Jabal Amman, Jordan
+                                    </p>
+                                    <p class="project-description">A beautiful blend of traditional Jordanian elements with modern functionality. Located in Jabal Amman, this kitchen features handcrafted details, natural materials, and warm earth tones.</p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="work-card scale-in stagger-4">
-                    <div class="work-image">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 5">
-                        <div class="work-overlay">
-                            <div class="work-content">
-                                <h3>Nabil Zahra Modern Kitchen</h3>
-                                <p>An ultra-modern kitchen in Sweifieh featuring sleek lines, integrated appliances, and innovative lighting design. This project showcases the future of kitchen design with smart home integration.</p>
-                                <div class="work-arrow">
-                                    <i class="fa-solid fa-arrow-right"></i>
+                
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in stagger-4">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 5" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>Nabil Zahra Modern Kitchen</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> Sweifieh, Jordan
+                                    </p>
+                                    <p class="project-description">An ultra-modern kitchen in Sweifieh featuring sleek lines, integrated appliances, and innovative lighting design. This project showcases the future of kitchen design with smart home integration.</p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="work-card scale-in stagger-5">
-                    <div class="work-image">
-                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 6">
-                        <div class="work-overlay">
-                            <div class="work-content">
-                                <h3>Sarah Ahmad Family Kitchen</h3>
-                                <p>A warm and inviting family kitchen in Jubeiha designed for entertaining and daily life. Features a large island, professional-grade appliances, and thoughtful storage throughout.</p>
-                                <div class="work-arrow">
-                                    <i class="fa-solid fa-arrow-right"></i>
+                
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in stagger-5">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="Kitchen Project 6" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>Sarah Ahmad Family Kitchen</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> Jubeiha, Jordan
+                                    </p>
+                                    <p class="project-description">A warm and inviting family kitchen in Jubeiha designed for entertaining and daily life. Features a large island, professional-grade appliances, and thoughtful storage throughout.</p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            <% } %>
         </div>
-    </div>
-</div>
 
+    </div>
 <%- include('../../partial/footer.ejs') %>

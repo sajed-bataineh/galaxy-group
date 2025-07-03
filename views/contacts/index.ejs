@@ -1,0 +1,698 @@
+<%- include('../../partial/index.ejs') %>
+    <style>
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: #f8f9fa; 
+        }
+        .card { 
+            border: none; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+        }
+        .stats-card { 
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); 
+            color: white; 
+        }
+        .stats-card-new { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+        }
+        .table {
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .table thead {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            color: white;
+        }
+        .message-preview { 
+            max-height: 60px; 
+            max-width: 200px;
+            overflow: hidden; 
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .message-cell {
+            max-width: 250px;
+        }
+        .badge {
+            font-size: 0.85rem;
+            padding: 0.5rem 0.75rem;
+        }
+        .btn-group .btn {
+            margin: 0 2px;
+        }
+        .dropdown-menu {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .pagination .page-link {
+            border-radius: 50px;
+            margin: 0 2px;
+            border: none;
+            color: #ff416c;
+        }
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            border: none;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7rem;
+        }
+        .table-row-new {
+            background-color: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+        }
+        .table-row-high-priority {
+            background-color: rgba(255, 65, 108, 0.1);
+            border-left: 4px solid #ff416c;
+        }
+        .empty-state {
+            padding: 60px 20px;
+        }
+        .empty-state i {
+            opacity: 0.3;
+        }
+        .message-modal .modal-body {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .contact-card {
+            transition: transform 0.2s ease;
+        }
+        .priority-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 8px;
+        }
+        .priority-high { background-color: #dc3545; }
+        .priority-medium { background-color: #ffc107; }
+        .priority-low { background-color: #28a745; }
+        
+        /* Loading styles */
+        .loading {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+        }
+    </style>
+
+
+    <div class="container mt-4">
+        <!-- عنوان الصفحة -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1><i class="fas fa-envelope me-2"></i><%= title %></h1>
+                <p class="text-muted mb-0">إدارة جميع رسائل التواصل المرسلة من الموقع</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-info" onclick="refreshData()">
+                    <i class="fas fa-sync-alt me-2"></i>تحديث
+                </button>
+            </div>
+        </div>
+
+        <!-- رسائل النجاح والخطأ -->
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <%= success %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <% } %>
+
+        <!-- إحصائيات سريعة -->
+        <div class="row mb-4">
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="card stats-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-envelope fa-2x mb-2"></i>
+                        <h4><%= typeof stats !== 'undefined' ? stats.total : 0 %></h4>
+                        <small>إجمالي الرسائل</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="card stats-card-new">
+                    <div class="card-body text-center">
+                        <i class="fas fa-envelope-open fa-2x mb-2"></i>
+                        <h4><%= typeof stats !== 'undefined' ? stats.new : 0 %></h4>
+                        <small>رسائل جديدة</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-eye fa-2x mb-2"></i>
+                        <h4><%= typeof stats !== 'undefined' ? stats.read : 0 %></h4>
+                        <small>مقروءة</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-reply fa-2x mb-2"></i>
+                        <h4><%= typeof stats !== 'undefined' ? stats.replied : 0 %></h4>
+                        <small>تم الرد عليها</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="card bg-danger text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-exclamation fa-2x mb-2"></i>
+                        <h4><%= typeof stats !== 'undefined' ? stats.high : 0 %></h4>
+                        <small>أولوية عالية</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-archive fa-2x mb-2"></i>
+                        <h4><%= typeof contacts !== 'undefined' ? contacts.filter(c => c.status === 'archived').length : 0 %></h4>
+                        <small>مؤرشفة</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- أدوات الفلترة والبحث -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-filter me-2"></i>البحث والفلترة</h5>
+            </div>
+            <div class="card-body">
+                <form method="GET" class="row align-items-end">
+                    <div class="col-lg-2 col-md-4 col-6 mb-3">
+                        <label class="form-label">الحالة</label>
+                        <select name="status" class="form-select">
+                            <option value="">جميع الحالات</option>
+                            <option value="new" <%= typeof filter !== 'undefined' && filter.status === 'new' ? 'selected' : '' %>>جديدة</option>
+                            <option value="read" <%= typeof filter !== 'undefined' && filter.status === 'read' ? 'selected' : '' %>>مقروءة</option>
+                            <option value="replied" <%= typeof filter !== 'undefined' && filter.status === 'replied' ? 'selected' : '' %>>تم الرد</option>
+                            <option value="archived" <%= typeof filter !== 'undefined' && filter.status === 'archived' ? 'selected' : '' %>>مؤرشفة</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6 mb-3">
+                        <label class="form-label">الأولوية</label>
+                        <select name="priority" class="form-select">
+                            <option value="">جميع الأولويات</option>
+                            <option value="high" <%= typeof filter !== 'undefined' && filter.priority === 'high' ? 'selected' : '' %>>عالية</option>
+                            <option value="medium" <%= typeof filter !== 'undefined' && filter.priority === 'medium' ? 'selected' : '' %>>متوسطة</option>
+                            <option value="low" <%= typeof filter !== 'undefined' && filter.priority === 'low' ? 'selected' : '' %>>منخفضة</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-8 col-12 mb-3">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search me-2"></i>بحث
+                            </button>
+                            <a href="/contacts" class="btn btn-secondary">
+                                <i class="fas fa-undo me-2"></i>إعادة تعيين
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- جدول الرسائل -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-table me-2"></i>قائمة الرسائل</h5>
+                <span class="badge bg-primary">
+                    <%= typeof contacts !== 'undefined' ? contacts.length : 0 %> رسالة
+                </span>
+            </div>
+            <div class="card-body">
+                <% if (typeof contacts !== 'undefined' && contacts.length > 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>المرسل</th>
+                                    <th>البريد الإلكتروني</th>
+                                    <th>الهاتف</th>
+                                    <th>الرسالة</th>
+                                    <th>الأولوية</th>
+                                    <th>الحالة</th>
+                                    <th>تاريخ الإرسال</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% contacts.forEach(contact => { %>
+                                    <tr class="<%= contact.status === 'new' ? 'table-row-new' : contact.priority === 'high' ? 'table-row-high-priority' : '' %> contact-card" id="contact-row-<%= contact._id %>">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="me-2">
+                                                    <span class="priority-indicator priority-<%= contact.priority %>"></span>
+                                                    <% if (contact.status === 'new') { %>
+                                                        <span class="badge bg-primary badge-sm">جديد</span>
+                                                    <% } %>
+                                                </div>
+                                                <div>
+                                                    <strong><%= contact.firstName %> <%= contact.lastName %></strong>
+                                                    <% if (contact.status === 'new') { %>
+                                                        <i class="fas fa-circle text-primary ms-1" style="font-size: 0.5rem;"></i>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="mailto:<%= contact.email %>" class="text-decoration-none">
+                                                <%= contact.email %>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="tel:<%= contact.phone %>" class="text-decoration-none">
+                                                <%= contact.phone %>
+                                            </a>
+                                        </td>
+                                        <td class="message-cell">
+                                            <div class="message-preview" title="<%= contact.message %>">
+                                                <%= contact.message.length > 50 ? contact.message.substring(0, 50) + '...' : contact.message %>
+                                            </div>
+                                            <% if (contact.message.length > 50) { %>
+                                                <button
+                                                  class="btn btn-sm btn-link p-0 text-primary"
+                                                  onclick="showMessage('<%= contact._id %>', '<%= contact.firstName %> <%= contact.lastName %>', `<%= contact.message.replace(/`/g, '\\`').replace(/\n/g, '\\n')%>`)">
+                                                  عرض كامل
+                                                </button>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-<%= 
+                                                contact.priority === 'high' ? 'danger' : 
+                                                contact.priority === 'medium' ? 'warning' : 'secondary' 
+                                            %>">
+                                                <%= 
+                                                    contact.priority === 'high' ? 'عالية' : 
+                                                    contact.priority === 'medium' ? 'متوسطة' : 'منخفضة' 
+                                                %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-<%= 
+                                                contact.status === 'new' ? 'primary' : 
+                                                contact.status === 'read' ? 'info' : 
+                                                contact.status === 'replied' ? 'success' : 'dark' 
+                                            %>" id="status-badge-<%= contact._id %>">
+                                                <%= 
+                                                    contact.status === 'new' ? 'جديدة' : 
+                                                    contact.status === 'read' ? 'مقروءة' : 
+                                                    contact.status === 'replied' ? 'تم الرد' : 'مؤرشفة' 
+                                                %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <small class="text-muted">
+                                                <%= new Date(contact.createdAt).toLocaleDateString('ar-SA') %>
+                                                <br>
+                                                <%= new Date(contact.createdAt).toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'}) %>
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" title="إدارة الرسالة">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" style="z-index: 100000; background-color: white;">
+                                                        <li><h6 class="dropdown-header">تحديث الحالة</h6></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="updateContactStatus('<%= contact._id %>', 'read')">
+                                                            <i class="fas fa-eye text-info me-2"></i>تعيين كمقروءة
+                                                        </a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="updateContactStatus('<%= contact._id %>', 'replied')">
+                                                            <i class="fas fa-reply text-success me-2"></i>تم الرد عليها
+                                                        </a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="updateContactStatus('<%= contact._id %>', 'archived')">
+                                                            <i class="fas fa-archive text-secondary me-2"></i>أرشفة
+                                                        </a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><h6 class="dropdown-header">تحديث الأولوية</h6></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="updatePriority('<%= contact._id %>', 'high')">
+                                                            <i class="fas fa-exclamation text-danger me-2"></i>أولوية عالية
+                                                        </a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="updatePriority('<%= contact._id %>', 'medium')">
+                                                            <i class="fas fa-minus text-warning me-2"></i>أولوية متوسطة
+                                                        </a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="updatePriority('<%= contact._id %>', 'low')">
+                                                            <i class="fas fa-arrow-down text-secondary me-2"></i>أولوية منخفضة
+                                                        </a></li>
+                                                    </ul>
+                                                </div>
+                                                <a href="mailto:<%= contact.email %>?subject=رد على رسالتك - Galaxy Group&body=مرحباً <%= contact.firstName %>،%0A%0Aشكراً لك على تواصلك معنا..." class="btn btn-sm btn-outline-success" title="رد بالإيميل">
+                                                    <i class="fas fa-reply"></i>
+                                                </a>
+                                                <button onclick="deleteContact('<%= contact._id %>')" class="btn btn-sm btn-outline-danger" title="حذف الرسالة">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ترقيم الصفحات -->
+                    <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+                        <nav class="mt-4" aria-label="ترقيم الصفحات">
+                            <ul class="pagination justify-content-center">
+                                <% if (currentPage > 1) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= currentPage - 1 %>&status=<%= typeof filter !== 'undefined' && filter.status ? filter.status : '' %>&priority=<%= typeof filter !== 'undefined' && filter.priority ? filter.priority : '' %>&search=<%= typeof filter !== 'undefined' && filter.search ? filter.search : '' %>&date=<%= typeof filter !== 'undefined' && filter.date ? filter.date : '' %>">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                <% } %>
+                                
+                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                        <a class="page-link" href="?page=<%= i %>&status=<%= typeof filter !== 'undefined' && filter.status ? filter.status : '' %>&priority=<%= typeof filter !== 'undefined' && filter.priority ? filter.priority : '' %>&search=<%= typeof filter !== 'undefined' && filter.search ? filter.search : '' %>&date=<%= typeof filter !== 'undefined' && filter.date ? filter.date : '' %>">
+                                            <%= i %>
+                                        </a>
+                                    </li>
+                                <% } %>
+                                
+                                <% if (currentPage < totalPages) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= currentPage + 1 %>&status=<%= typeof filter !== 'undefined' && filter.status ? filter.status : '' %>&priority=<%= typeof filter !== 'undefined' && filter.priority ? filter.priority : '' %>&search=<%= typeof filter !== 'undefined' && filter.search ? filter.search : '' %>&date=<%= typeof filter !== 'undefined' && filter.date ? filter.date : '' %>">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    <% } %>
+                <% } else { %>
+                    <!-- حالة عدم وجود رسائل -->
+                    <div class="text-center empty-state">
+                        <i class="fas fa-envelope-open fa-5x text-muted mb-3"></i>
+                        <h4 class="text-muted">لا توجد رسائل</h4>
+                        <p class="text-muted">
+                            <% if (typeof filter !== 'undefined' && (filter.status || filter.priority || filter.search || filter.date)) { %>
+                                لم يتم العثور على أي رسائل تطابق معايير البحث المحددة
+                            <% } else { %>
+                                لا توجد رسائل تواصل بعد. ستظهر الرسائل هنا عندما يقوم الزوار بإرسال رسائل من الموقع.
+                            <% } %>
+                        </p>
+                        <% if (typeof filter !== 'undefined' && (filter.status || filter.priority || filter.search || filter.date)) { %>
+                            <a href="/contacts" class="btn btn-primary">
+                                <i class="fas fa-undo me-2"></i>عرض جميع الرسائل
+                            </a>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة عرض الرسالة كاملة -->
+    <div class="modal fade" id="messageModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">رسالة من <span id="senderName"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body message-modal">
+                    <div id="messageContent" style="white-space: pre-wrap; line-height: 1.6;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                    <button type="button" class="btn btn-success" onclick="replyToMessage()" id="replyBtn">
+                        <i class="fas fa-reply me-2"></i>رد بالإيميل
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    let currentContactEmail = '';
+    let currentContactName = '';
+
+    function showMessage(contactId, senderName, message) {
+        document.getElementById('senderName').textContent = senderName;
+        document.getElementById('messageContent').textContent = message;
+
+        const row = document.getElementById(`contact-row-${contactId}`);
+        if (row) {
+            const emailLink = row.querySelector('a[href^="mailto:"]');
+            if (emailLink) {
+                currentContactEmail = emailLink.href.replace('mailto:', '');
+                currentContactName = senderName;
+            }
+        }
+
+        const modal = new bootstrap.Modal(document.getElementById('messageModal'));
+        modal.show();
+    }
+
+    async function updateContactStatus(contactId, status) {
+        try {
+            const response = await fetch(`/contacts/${contactId}/status`,{
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                updateStatusBadge(contactId, status);
+                showAlert('تم تحديث حالة الرسالة بنجاح', 'success');
+                updateRowAppearance(contactId, status);
+            } else {
+                showAlert('حدث خطأ في تحديث الرسالة', 'danger');
+            }
+        } catch (error) {
+            console.error('Error updating contact status:', error);
+            showAlert('حدث خطأ في الاتصال بالخادم', 'danger');
+        }
+    }
+
+    async function updatePriority(contactId, priority) {
+        try {
+            const response = await fetch(`/contacts/${contactId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ priority })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                updatePriorityDisplay(contactId, priority);
+                showAlert('تم تحديث أولوية الرسالة بنجاح', 'success');
+            } else {
+                showAlert('حدث خطأ في تحديث الأولوية', 'danger');
+            }
+        } catch (error) {
+            console.error('Error updating priority:', error);
+            showAlert('حدث خطأ في الاتصال بالخادم', 'danger');
+        }
+    }
+
+    async function deleteContact(contactId) {
+        if (!confirm('هل أنت متأكد من حذف هذه الرسالة؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+
+        try {
+            const response = await fetch(`/contacts/${contactId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                const row = document.getElementById(`contact-row-${contactId}`);
+                if (row) row.remove();
+
+                showAlert('تم حذف الرسالة بنجاح', 'success');
+
+                setTimeout(() => {
+                    const tbody = document.querySelector('tbody');
+                    if (tbody && tbody.children.length === 0) window.location.reload();
+                }, 1000);
+            } else {
+                showAlert('حدث خطأ في حذف الرسالة', 'danger');
+            }
+        } catch (error) {
+            console.error('Error deleting contact:', error);
+            showAlert('حدث خطأ في الاتصال بالخادم', 'danger');
+        }
+    }
+
+    async function markAllAsRead() {
+        if (!confirm('هل تريد تعيين جميع الرسائل الجديدة كمقروءة؟')) return;
+
+        try {
+            const newRows = document.querySelectorAll('.table-row-new');
+            const promises = [];
+
+            newRows.forEach(row => {
+                const contactId = row.id.replace('contact-row-', '');
+                promises.push(fetch(`/contacts/${contactId}/status`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: 'read' })
+                }));
+            });
+
+            await Promise.all(promises);
+
+            newRows.forEach(row => {
+                const contactId = row.id.replace('contact-row-', '');
+                updateStatusBadge(contactId, 'read');
+                updateRowAppearance(contactId, 'read');
+            });
+
+            showAlert('تم تعيين جميع الرسائل كمقروءة', 'success');
+        } catch (error) {
+            console.error('Error marking all as read:', error);
+            showAlert('حدث خطأ في تحديث الرسائل', 'danger');
+        }
+    }
+
+    function refreshData() {
+        window.location.reload();
+    }
+
+    function replyToMessage() {
+        if (currentContactEmail) {
+            const subject = encodeURIComponent('رد على رسالتك - Galaxy Group');
+            const body = encodeURIComponent(`مرحباً ${currentContactName}،\n\nشكراً لك على تواصلك معنا...\n\nمع التحية،\nفريق Galaxy Group`);
+            window.open(`mailto:${currentContactEmail}?subject=${subject}&body=${body}`);
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('messageModal'));
+            if (modal) modal.hide();
+        }
+    }
+
+    function updateStatusBadge(contactId, status) {
+        const badge = document.getElementById(`status-badge-${contactId}`);
+        if (badge) {
+            badge.className = badge.className.replace(/bg-\w+/g, '');
+            let bgClass = '', text = '';
+            switch (status) {
+                case 'new': bgClass = 'bg-primary'; text = 'جديدة'; break;
+                case 'read': bgClass = 'bg-info'; text = 'مقروءة'; break;
+                case 'replied': bgClass = 'bg-success'; text = 'تم الرد'; break;
+                case 'archived': bgClass = 'bg-dark'; text = 'مؤرشفة'; break;
+            }
+            badge.className += ` ${bgClass}`;
+            badge.textContent = text;
+        }
+    }
+
+    function updatePriorityDisplay(contactId, priority) {
+        const row = document.getElementById(`contact-row-${contactId}`);
+        if (row) {
+            const indicator = row.querySelector('.priority-indicator');
+            if (indicator) {
+                indicator.className = `priority-indicator priority-${priority}`;
+            }
+
+            const priorityBadge = row.querySelector('.badge');
+            if (priorityBadge && ['عالية', 'متوسطة', 'منخفضة'].some(p => priorityBadge.textContent.includes(p))) {
+                priorityBadge.className = priorityBadge.className.replace(/bg-\w+/g, '');
+
+                let bgClass = '', text = '';
+                switch (priority) {
+                    case 'high': bgClass = 'bg-danger'; text = 'عالية'; break;
+                    case 'medium': bgClass = 'bg-warning'; text = 'متوسطة'; break;
+                    case 'low': bgClass = 'bg-secondary'; text = 'منخفضة'; break;
+                }
+
+                priorityBadge.className += ` ${bgClass}`;
+                priorityBadge.textContent = text;
+            }
+        }
+    }
+
+    function updateRowAppearance(contactId, status) {
+        const row = document.getElementById(`contact-row-${contactId}`);
+        if (row) {
+            row.classList.remove('table-row-new', 'table-row-high-priority');
+
+            if (status === 'new') row.classList.add('table-row-new');
+
+            const newIndicator = row.querySelector('.fa-circle');
+            const newBadge = row.querySelector('.badge-sm');
+
+            if (status === 'new') {
+                if (!newIndicator) {
+                    const indicator = document.createElement('i');
+                    indicator.className = 'fas fa-circle text-primary ms-1';
+                    indicator.style.fontSize = '0.5rem';
+                    row.querySelector('strong').appendChild(indicator);
+                }
+                if (!newBadge) {
+                    const badge = document.createElement('span');
+                    badge.className = 'badge bg-primary badge-sm';
+                    badge.textContent = 'جديد';
+                    row.querySelector('.me-2').appendChild(badge);
+                }
+            } else {
+                if (newIndicator) newIndicator.remove();
+                if (newBadge) newBadge.remove();
+            }
+        }
+    }
+
+    function showAlert(message, type = 'info') {
+        const existingAlerts = document.querySelectorAll('.alert:not(.alert-dismissible)');
+        existingAlerts.forEach(alert => alert.remove());
+
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        const container = document.querySelector('.container');
+        const firstCard = container.querySelector('.card');
+        container.insertBefore(alertDiv, firstCard);
+
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 5000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function () {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) submitBtn.disabled = true;
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>

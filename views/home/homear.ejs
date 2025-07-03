@@ -1,0 +1,628 @@
+<%- include('../../partial/mainheadar.ejs') %>
+<style>
+    .work-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.main-project-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.additional-images {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    max-width: 150px;
+}
+
+.small-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.small-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.more-images-indicator {
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+.project-location,
+.project-duration {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #ccc;
+}
+
+.project-location i,
+.project-duration i {
+    margin-right: 5px;
+    color: #007bff;
+}
+
+.images-count {
+    font-size: 12px;
+    color: #007bff;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.images-count i {
+    margin-right: 5px;
+}
+
+.work-card:hover .main-project-image {
+    transform: scale(1.05);
+}
+
+.work-card:hover .additional-images {
+    opacity: 1;
+}
+</style>
+<div class="head">
+    <div class="video">
+        <video src="https://res.cloudinary.com/dd03x0wle/video/upload/v1748344393/FDownloader.Net_AQM4rGd67_NJJI5ZBrGTziSWIwIY8aMY3ijmUuibwahbgVUjSDCj2At3I-ELHB3RgNVPHDMG4fRDc8F3GccgP-qp_720p__HD_wokuf4.mp4" autoplay muted loop></video>
+    </div>
+    <div class="backround"></div>
+    <div class="text h-100 p-3">
+        <div class="row align-items-center h-75 mt-5">
+            <div class="col-12 col-md-6">
+                <p class="hero-text stagger-1">مجموعة جالاكسي</p>
+                <h1 class="hero-text stagger-2">حوّل <strong>مطبخك</strong> إلى تحفة فنية</h1>
+                <p class="explan hero-text stagger-3">
+                    من المطابخ الحديثة الأنيقة إلى التصاميم الكلاسيكية الدافئة والمساحات المخصصة بالكامل، فريق جالاكسي المحترف يحوّل رؤيتك إلى واقع. هنا في الأردن، نمزج بين الأناقة والعملية لنصمم مطابخ تلهمك وتلبي احتياجاتك. دعنا نصمم لك مطبخًا ستحبه لسنوات قادمة.
+                </p>
+            </div>
+        </div>
+        <div class="links d-flex hero-text stagger-3">
+            <a href="" class="link1 rounded-5 py-2 px-5">
+                استكشف المزيد
+                <i class="fa-solid fa-arrow-left rounded-5 bg-black p-2"></i>
+            </a>
+            <div class="mx-3"></div>
+            <a href="" class="link2 rounded-5 py-2 px-5">
+                أعمالنا
+                <i class="fa-solid fa-arrow-left rounded-5 bg-black p-2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid costomer mb-5 fade-in">
+    <div class="row px-2 py-4 align-items-center">
+        <div class="col-12 col-md-2 scale-in">
+            <p class="number">+200</p>
+        </div>
+        <div class="col-12 col-md-2 happy slide-left">
+            <p>عملاء سعداء</p>
+        </div>
+        <div class="col-12 col-md-4 d-flex justify-content-center fade-in">
+            <p>
+                معًا، سنحقق أحلامك في تصميم المطبخ! من التصاميم المخصصة إلى التركيب السلس، فريق جالاكسي المحترف مستعد لتصميم مساحة تلائم ذوقك، أسلوب حياتك، واحتياجات منزلك الخاصة في الأردن.
+            </p>
+        </div>
+        <div class="col-12 col-md-4 position-relative d-flex justify-content-center slide-right">
+            <div class="contact-card p-3">
+                <h3>هل أنت مستعد لتحويل مطبخك؟</h3>
+                <div class="line mt-5"></div>
+                <p>
+                    دع جالاكسي جروب تضيف الوظيفة، الأناقة، والابتكار إلى قلب منزلك.
+                    تواصل معنا اليوم لاستشارة مجانية واكتشف كيف يمكننا تحويل رؤيتك إلى واقع.
+                </p>
+                <p class="mt-4">
+                    <a href="" class="rounded-5 bg-white py-2 px-4 text-black">اعرف المزيد</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="sections p-3 mb-5" data-section="Clients">
+        <div class="row mt-5">
+             <div class="col-12 col-md-6 slide-left ">
+                <h3>شركاؤنا الموثوقون</h3>
+            <h1>نعيد تصميم المطابخ في الأردن منذ 1999</h1>
+            </div>
+            <div class="col-12 col-md-6 slide-right">
+                <p>من الفنادق الفاخرة إلى مقرات الشركات والمنازل الخاصة، تفخر جالاكسي جروب بخدمة أبرز العملاء في الأردن. تشمل محفظتنا شراكات مع شركات رائدة، مؤسسات مرموقة، وأصحاب منازل يثقون بنا لتصميم مطابخ تجمع بين الأناقة والوظائف العملية.</p>
+            </div>
+        </div>
+        <div class="line-news mt-3 mb-3 d-flex align-items-center fade-in">
+            <div class="clients-container">
+                <!-- First set of clients -->
+                
+                 <% if (clients && clients.length > 0) { %>
+                     <% clients.forEach(client => { %>
+                         <% if (client.logo && client.logo.url) { %>
+                             <div class="client">
+                                 <img src="<%= client.logo.url %>" alt="<%= client.name.ar %>" class="client-logo">
+                             </div>
+                         <% } %>
+                     <% }); %>
+                 <% } %>
+                 <% if (clients && clients.length > 0) { %>
+                     <% clients.forEach(client => { %>
+                         <% if (client.logo && client.logo.url) { %>
+                             <div class="client">
+                                 <img src="<%= client.logo.url %>" alt="<%= client.name.ar %>" class="client-logo">
+                             </div>
+                         <% } %>
+                     <% }); %>
+                 <% } %>
+             </div> 
+        </div>
+    </div>
+
+
+   <!-- About Section -->
+   <div class="container sections about-section mb-5" data-section="من نحن">
+       <div class="row p-3">
+           <div class="col-12 col-md-6 slide-left">
+               <h1 class="mb-4">نمنح مطبخك الجمال والتميّز</h1>
+               <p class="mb-4">في جالاكسي جروب، نحول أحلامك في المطبخ إلى واقع أنيق وعملي، من خلال تصميم مساحات راقية تناسب أسلوب حياتك. يقوم فريقنا المتخصص بتصميم المطابخ في جميع أنحاء الأردن، مقدمين الابتكار والجمال لكل منزل.</p>
+               <div class="services-list">
+                   <div class="service-item fade-in stagger-1">
+                       <span class="check-mark">✓</span>
+                       <span class="service-text">تصميم وتركيب مطابخ احترافية</span>
+                   </div>
+                   <div class="service-item fade-in stagger-2">
+                       <span class="check-mark">✓</span>
+                       <span class="service-text">حلول مطبخ مهنية</span>
+                   </div>
+                   <div class="service-item fade-in stagger-3">
+                       <span class="check-mark">✓</span>
+                       <span class="service-text">تصاميم مطابخ مخصصة</span>
+                   </div>
+                   <div class="service-item fade-in stagger-4">
+                       <span class="check-mark">✓</span>
+                       <span class="service-text">خدمة تركز على العميل</span>
+                   </div>
+               </div>
+           </div>
+           <div class="col-12 col-md-6 slide-right">
+               <div class="about-image-container">
+                   <% if (randomImages && randomImages.length > 0) { %>
+                       <img src="<%= randomImages[0].url %>" alt="جودة المطابخ" class="about-image">
+                   <% } else { %>
+                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="جودة المطابخ" class="about-image">
+                   <% } %>
+               </div>
+           </div>
+       </div>
+   </div>
+
+    <!-- Services Section -->
+    <div class="container-fluid sections services-section mb-5" data-section="خدمات">
+        <div class="row p-3">
+            <div class="col-12 text-center mb-5">
+                <h1 class="slide-up">حلول مطبخ متكاملة لكل مساحة</h1>
+                <p class="slide-up">في جالاكسي جروب، نقدم حلول مطبخ احترافية في جميع أنحاء الأردن، مصممة حسب احتياجاتك الفريدة. خدماتنا الشاملة تحول أي مساحة مطبخ إلى بيئة أنيقة وعملية وفعالة تجمع بين الجمال والوظائف.</p>
+            </div>
+        </div>
+        
+        <div class="row p-3">
+            <div class="col-12 col-md-4 mb-4">
+                <div class="service-card scale-in">
+                    <div class="service-image">
+                        <% if (randomImages && randomImages.length > 1) { %>
+                            <img src="<%= randomImages[1].url %>" alt="تصميم وتخطيط المطبخ">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="تصميم وتخطيط المطبخ">
+                        <% } %>
+                        <div class="service-overlay">
+                            <div class="service-content">
+                                <h3>تصميم وتخطيط المطبخ</h3>
+                                <p>اكتشف التميز في تصميم وتخطيط المطابخ مع جالاكسي جروب</p>
+                                <div class="service-arrow">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-4 mb-4">
+                <div class="service-card scale-in stagger-2">
+                    <div class="service-image">
+                        <% if (randomImages && randomImages.length > 2) { %>
+                            <img src="<%= randomImages[2].url %>" alt="صيانة المطبخ">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="صيانة المطبخ">
+                        <% } %>
+                        <div class="service-overlay">
+                            <div class="service-content">
+                                <h3>صيانة المطبخ</h3>
+                                <p>اكتشف التميز في صيانة المطابخ مع جالاكسي جروب</p>
+                                <div class="service-arrow">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-4 mb-4">
+                <div class="service-card scale-in stagger-3">
+                    <div class="service-image">
+                        <% if (randomImages && randomImages.length > 3) { %>
+                            <img src="<%= randomImages[3].url %>" alt="رعاية معدات المطبخ">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="رعاية معدات المطبخ">
+                        <% } %>
+                        <div class="service-overlay">
+                            <div class="service-content">
+                                <h3>رعاية معدات المطبخ وحلول النظافة</h3>
+                                <p>اكتشف التميز في صيانة معدات المطبخ والنظافة مع جالاكسي جروب</p>
+                                <div class="service-arrow">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Expertise Section -->
+    <div class="container-fluid sections expertise-section mb-5" data-section="الخبرات">
+        <div class="row p-3">
+            <div class="col-12 col-md-6 slide-left">
+                <h1 class="mb-4">الخبرة في التميز بالمطابخ</h1>
+                <p class="mb-4">على مدى سنوات، تقوم جالاكسي جروب بتحويل المطابخ في جميع أنحاء الأردن من خلال تصميم احترافي وحرفية عالية توازن بين الأناقة والوظائف.</p>
+                <p>فريقنا الماهر متخصص في خلق مطابخ تناسب أسلوب حياتك واحتياجاتك. من التصاميم الحديثة الأنيقة إلى التخطيطات الكلاسيكية، نبني مساحات مطبخ مستدامة وجميلة تحقق رؤيتك مع احترام المساحة والتفضيلات الخاصة بك.</p>
+            </div>
+            <div class="col-12 col-md-6 slide-right">
+                <div class="expertise-images">
+                    <div class="exp-img img-4 scale-in stagger-3">
+                        <% if (randomImages && randomImages.length > 4) { %>
+                            <img src="<%= randomImages[4].url %>" alt="تصميم مطبخ 4">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="تصميم مطبخ 4">
+                        <% } %>
+                    </div>
+                    <div class="exp-img img-5 scale-in stagger-4">
+                        <% if (randomImages && randomImages.length > 5) { %>
+                            <img src="<%= randomImages[5].url %>" alt="تصميم مطبخ 5">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="تصميم مطبخ 5">
+                        <% } %>
+                    </div>
+                    <div class="exp-img img-6 scale-in stagger-5">
+                        <% if (randomImages && randomImages.length > 6) { %>
+                            <img src="<%= randomImages[6].url %>" alt="تصميم مطبخ 6">
+                        <% } else { %>
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="تصميم مطبخ 6">
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Why Choose Us Section -->
+    <div class="container-fluid sections why-choose-section mb-5" data-section="لماذا تختارنا؟">
+        <div class="row p-3 align-items-center">
+            <div class="col-12 col-md-6 slide-left">
+                <div class="logo-container fade-in">
+                    <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="شعار جالاكسي جروب" class="company-logo">
+                </div>
+            </div>
+            <div class="col-12 col-md-6 slide-right">
+    
+                <h1 class="mb-4">شارك مع جالاكسي جروب من أجل التميز في المطابخ.</h1>
+                <p class="mb-4">اختر جالاكسي جروب لخبرة لا مثيل لها في تصميم المطابخ في الأردن: حلول مبتكرة، حرفية فائقة، وخدمة مخصصة تحول أحلام مطبخك إلى واقع.</p>
+                
+                <div class="features-list">
+                    <div class="feature-item fade-in stagger-1">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>خبرة ورؤية محلية</h4>
+                            <p>فهم عميق لاحتياجات وأنماط المطابخ في الأردن، مما يضمن أن يكون مطبخك جميلاً ووظيفياً طوال العام.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item fade-in stagger-2">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>حرفية متميزة</h4>
+                            <p>اهتمام استثنائي بالتفاصيل، باستخدام مواد عالية الجودة وتقنيات مبتكرة لإنشاء مطابخ متينة وجميلة.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- How It Works Section -->
+    <div class="container-fluid sections how-it-works-section mb-5" data-section="كيف نعمل">
+        <div class="row p-3">
+            <div class="col-12 col-md-6 slide-left">
+                <h1 class="mb-4">رحلة تحويل مطبخ جالاكسي جروب</h1>
+                <p class="mb-5">اختبر عملية تصميم المطبخ السلسة لدينا، من رؤيتك الأولية إلى التركيب النهائي. نرشدك خلال كل خطوة لضمان أن يصبح مطبخ أحلامك حقيقة، مصمم خصيصًا لأسلوب حياتك ومساحتك.</p>
+                
+                <div class="process-steps">
+                    <div class="process-step fade-in stagger-1">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>استشارة الرؤية</h4>
+                            <p>شارك أفكار مطبخك مع خبرائنا ونحن نفهم أسلوبك واحتياجاتك وميزانيتك لإنشاء مساحة الطهي المثالية لك.</p>
+                        </div>
+                    </div>
+                    <div class="process-step fade-in stagger-2">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>تقييم المساحة</h4>
+                            <p>يقيم فريقنا تخطيط ومساحة مطبخك الفريدة، مع مراعاة أسلوب حياتك واحتياجاتك لتعظيم الوظائف والأناقة.</p>
+                        </div>
+                    </div>
+                    <div class="process-step fade-in stagger-3">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>تصميم مخصص</h4>
+                            <p>نبتكر تصميم مطبخ مخصص يوازن بشكل مثالي بين الأسلوب والوظائف العملية ليناسب احتياجاتك.</p>
+                        </div>
+                    </div>
+                    <div class="process-step fade-in stagger-4">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>اختيار الجودة</h4>
+                            <p>نختار بعناية المواد والتجهيزات عالية الجودة التي تضمن جمال مطبخك الدائم ومتانته.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 slide-right">
+                <div class="rotating-logo-container">
+                    <div class="rotating-logo scale-in">
+                        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748133721/logo_xogb5e.jpg" alt="عملية جالاكسي جروب" class="rotating-logo-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+    <div class="container-fluid sections our-work-section mb-5" data-section="أعمالنا">
+        <div class="row p-3">
+            <div class="col-12 text-center mb-5">
+                <h1 class="slide-up mb-4">تصاميم المطابخ المميزة لمجموعة جالاكسي</h1>
+                <p class="slide-up">
+                    إبداعات مطابخ مجموعة جالاكسي - اكتشف مجموعتنا من مشاريع المطابخ التحولية في جميع أنحاء الأردن.
+                    كل مطبخ نصممه يروي قصة فريدة، حيث نمزج الإلهام المحلي مع الجماليات الحديثة لنقدم مساحات تجمع بين
+                    الأناقة والوظيفة والمتانة، مصممة لتناسب أسلوب حياة منطقتنا.
+                </p>
+            </div>
+        </div>
+        
+        <div class="row p-3">
+            <% if (projects && projects.length > 0) { %>
+                <% projects.forEach((project, index) => { %>
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="work-card scale-in <% if (index > 0) { %>stagger-<%= index %><% } %>">
+                            <div class="work-image">
+                                <% if (project.afterImages && project.afterImages.length > 0) { %>
+                                    <img src="<%= project.afterImages[0].url %>" alt="<%= project.name.ar %>" class="main-project-image">
+                                    <% if (project.afterImages.length > 1) { %>
+                                        <div class="additional-images">
+                                            <% project.afterImages.slice(1, 4).forEach((image, imgIndex) => { %>
+                                                <div class="small-image small-image-<%= imgIndex + 1 %>">
+                                                    <img src="<%= image.url %>" alt="<%= project.name.ar %> - صورة <%= imgIndex + 2 %>">
+                                                </div>
+                                            <% }); %>
+                                            <% if (project.afterImages.length > 4) { %>
+                                                <div class="more-images-indicator">
+                                                    +<%= project.afterImages.length - 4 %>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                    <% } %>
+                                <% } else if (randomImages && randomImages.length > index + 7) { %>
+                                    <img src="<%= randomImages[index + 7].url %>" alt="<%= project.name.ar %>" class="main-project-image">
+                                <% } else { %>
+                                    <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="<%= project.name.ar %>" class="main-project-image">
+                                <% } %>
+    
+                                <div class="work-overlay">
+                                    <div class="work-content">
+                                        <h3><%= project.name.ar %></h3>
+                                        
+                                        <p class="project-description">
+                                            <% if (project.description && project.description.ar) { %>
+                                                <%= project.description.ar.substring(0, 120) %>...
+                                            <% } else { %>
+                                                تحول مطبخ جميل في <%= project.location.ar %> يتميز بعناصر تصميم حديثة وتشطيبات فاخرة.
+                                                يوازن هذا المشروع بشكل مثالي بين الأناقة والوظيفة للحياة العصرية.
+                                            <% } %>
+                                        </p>
+                                        <% if (project.afterImages && project.afterImages.length > 1) { %>
+                                            <p class="images-count">
+                                                <i class="fa-solid fa-images"></i> <%= project.afterImages.length %> صورة
+                                            </p>
+                                        <% } %>
+                                        <div class="work-arrow">
+                                            <a href="/project/<%= project._id %>/ar"><i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <!-- محتوى بديل إذا لم تتوفر مشاريع -->
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="مشروع مطبخ 1" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>مطبخ عائلة أحمد الرشيد</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> عمّان، الأردن
+                                    </p>
+                                    <p class="project-description">
+                                        تحول مطبخ عصري في عمّان يتميز بأسطح من الرخام الأنيق وخزائن مصممة حسب الطلب
+                                        وأجهزة متطورة. يوازن هذا المشروع بين الضيافة الأردنية التقليدية والتصميم العصري.
+                                    </p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in stagger-1">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="مشروع مطبخ 2" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>مطبخ فيلا فاطمة حسن</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> عبدون، الأردن
+                                    </p>
+                                    <p class="project-description">
+                                        مطبخ مفتوح فاخر في عبدون يتميز بتشطيبات عالية الجودة وحلول تخزين ذكية وتصميم جزيرة أنيق.
+                                        يجمع هذا المكان العائلة مع الحفاظ على الأناقة.
+                                    </p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in stagger-2">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="مشروع مطبخ 3" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>مطبخ شقة عمر خليل</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> غرب عمّان، الأردن
+                                    </p>
+                                    <p class="project-description">
+                                        تصميم مطبخ مدمج وعملي في غرب عمّان يستغل كل بوصة من المساحة. يتميز بحلول تخزين ذكية
+                                        وأجهزة حديثة ولوحة ألوان خالدة مناسبة للعيش الحضري.
+                                    </p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in stagger-3">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="مشروع مطبخ 4" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>مطبخ ليلى منصور التقليدي</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> جبل عمّان، الأردن
+                                    </p>
+                                    <p class="project-description">
+                                        مزيج جميل من العناصر الأردنية التقليدية مع الوظيفة الحديثة. يقع في جبل عمّان،
+                                        ويتميز هذا المطبخ بتفاصيل يدوية ومواد طبيعية وألوان ترابية دافئة.
+                                    </p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in stagger-4">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="مشروع مطبخ 5" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>مطبخ نبيل زهرة العصري</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> الصويفية، الأردن
+                                    </p>
+                                    <p class="project-description">
+                                        مطبخ عصري للغاية في الصويفية يتميز بخطوط انسيابية وأجهزة مدمجة وتصميم إضاءة مبتكر.
+                                        يعرض هذا المشروع مستقبل تصميم المطابخ مع دمج التكنولوجيا الذكية.
+                                    </p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="work-card scale-in stagger-5">
+                        <div class="work-image">
+                            <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="مشروع مطبخ 6" class="main-project-image">
+                            <div class="work-overlay">
+                                <div class="work-content">
+                                    <h3>مطبخ عائلة سارة أحمد</h3>
+                                    <p class="project-location">
+                                        <i class="fa-solid fa-map-marker-alt"></i> الجبيهة، الأردن
+                                    </p>
+                                    <p class="project-description">
+                                        مطبخ دافئ ومرحّب في الجبيهة صُمم للاستضافة والحياة اليومية.
+                                        يتميز بجزيرة كبيرة وأجهزة احترافية...
+                                    </p>
+                                    <div class="work-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+
+<%- include('../../partial/footerar.ejs') %>

@@ -1,0 +1,179 @@
+<%- include('../../partial/mainheadar.ejs') %>
+
+<style>
+.scrollspy-example {
+    height: 600px;
+    overflow-y: auto;
+    padding: 24px;
+}
+.btn-primary {
+    background-color: var(--secondry-color) !important;
+    color: var(--main-color) !important;
+    padding: 20px !important;
+    width: 100%;
+    border-radius: 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border: 0;
+}
+.card {
+    border-radius: 0;
+}
+.scrollspy-example {
+    scroll-behavior: smooth;
+}
+.noned {
+    display: none;
+}
+.blockd {
+    display: block;
+}
+h1 {
+    font-size: 25px;
+}
+</style>
+
+<div class="headpage">
+    <div class="video">
+        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748487583/482203992_1153061593186920_4990799730796527867_n_eeiqzf.jpg" alt="">
+    </div>
+    <div class="backround"></div>
+    <div class="text h-100 p-3">
+        <div class="row align-items-center h-75 mt-5">
+            <div class="col-12 col-md-6">
+                <p class="hero-text stagger-1">مجموعة جالاكسي</p>
+                <h1 class="hero-text stagger-2"><strong>الأسئلة الشائعة</strong></h1>
+                <h5 class="mt-5 hero-text">الرئيسية / الأسئلة الشائعة</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container sections our-work-section p-3 mb-5 mt-5" data-section="الأسئلة الشائعة">
+    <div class="row mt-5">
+        <div class="col-12 col-md-4 mt-5">
+            <div id="simple-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy">
+                <a class="p-3 text-black rounded-5" style="background-color: var(--main-color);" href="#simple-list-item-1">معلومات عامة</a>
+                <a class="p-3 text-black mt-4 rounded-5" style="background-color: var(--main-color);" href="#simple-list-item-2">التصميم والتركيب</a>
+                <a class="p-3 text-black mt-4 rounded-5" style="background-color: var(--main-color);" href="#simple-list-item-3">الصيانة والدعم</a>
+                <a class="p-3 text-black mt-4 rounded-5" style="background-color: var(--main-color);" href="#simple-list-item-4">المواد والتشطيبات</a>
+                <a class="p-3 text-black mt-4 rounded-5" style="background-color: var(--main-color);" href="#simple-list-item-5">الحجز والتواصل</a>
+                <a class="p-3 text-black mt-4 rounded-5" style="background-color: var(--main-color);" href="#simple-list-item-6">طلبات خاصة</a>
+            </div>
+        </div>
+        <div class="col-12 col-md-8 mt-5">
+            <div data-bs-spy="scroll" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-example rounded-4 shadow" tabindex="0">
+                
+                <h1 id="simple-list-item-1">معلومات عامة</h1>
+                <div class="row">
+                    <p class="d-inline-flex gap-1 col-12 m-0 w-100">
+                        <a class="btn btn-primary b" data-bs-toggle="collapse" href="#q1" role="button" aria-expanded="false" aria-controls="q1">
+                            كيف أبدأ بشراء مطبخ من مجموعة جالاكسي؟
+                        </a>
+                    </p>
+                    <div class="collapse" id="q1">
+                        <div class="card card-body">
+                            يمكنك زيارة أحد معارضنا أو التواصل معنا لتحديد موعد. سنساعدك في اختيار أفضل تصميم يناسب مساحتك واحتياجاتك.
+                        </div>
+                    </div>
+
+                    <p class="d-inline-flex gap-1 col-12 m-0 w-100 mt-3">
+                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#q2" role="button" aria-expanded="false" aria-controls="q2">
+                            ما أنواع المطابخ التي تقدمونها؟
+                        </a>
+                    </p>
+                    <div class="collapse" id="q2">
+                        <div class="card card-body">
+                            نقدم مجموعة واسعة من المطابخ الحديثة والكلاسيكية بأنماط وتشطيبات متنوعة مثل الخشب، والألمنيوم، والـ PVC.
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="mt-4" id="simple-list-item-2">التصميم والتركيب</h1>
+                <div class="row">
+                    <p class="d-inline-flex m-0 w-100 mt-3 col-12 gap-1">
+                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#q3" role="button" aria-expanded="false" aria-controls="q3">
+                            هل يمكنني طلب تصميم مطبخ مخصص؟
+                        </a>
+                    </p>
+                    <div class="collapse" id="q3">
+                        <div class="card card-body">
+                            نعم، نحن نقدم تصاميم مطابخ مخصصة بالكامل وفقاً لتفضيلاتك والمساحة المتوفرة لديك.
+                        </div>
+                    </div>
+
+                    <p class="d-inline-flex m-0 w-100 mt-3 col-12 gap-1">
+                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#q4" role="button" aria-expanded="false" aria-controls="q4">
+                            كم يستغرق تركيب المطبخ؟
+                        </a>
+                    </p>
+                    <div class="collapse" id="q4">
+                        <div class="card card-body">
+                            يختلف وقت التركيب حسب حجم وتعقيد التصميم، لكنه يستغرق عادةً من 3 إلى 7 أيام بعد الإنتاج.
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="mt-4" id="simple-list-item-3">الصيانة والدعم</h1>
+                <div class="row">
+                    <p class="d-inline-flex m-0 w-100 mt-3 col-12 gap-1">
+                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#q5" role="button" aria-expanded="false" aria-controls="q5">
+                            هل تقدمون خدمات ما بعد البيع؟
+                        </a>
+                    </p>
+                    <div class="collapse" id="q5">
+                        <div class="card card-body">
+                            نعم، نقدم ضمانًا على مطابخنا ونوفر خدمات صيانة دورية إذا لزم الأمر لضمان رضاك التام.
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="mt-4" id="simple-list-item-4">المواد والتشطيبات</h1>
+                <div class="row">
+                    <p class="d-inline-flex m-0 w-100 mt-3 col-12 gap-1">
+                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#q6" role="button" aria-expanded="false" aria-controls="q6">
+                            ما المواد التي تستخدمونها في تصنيع المطابخ؟
+                        </a>
+                    </p>
+                    <div class="collapse" id="q6">
+                        <div class="card card-body">
+                            نستخدم خشب عالي الجودة، وMDF، وألمنيوم، وتشطيبات لامعة لضمان المتانة والمظهر العصري.
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="mt-4" id="simple-list-item-5">الحجز والتواصل</h1>
+                <div class="row">
+                    <p class="d-inline-flex m-0 w-100 mt-3 col-12 gap-1">
+                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#q7" role="button" aria-expanded="false" aria-controls="q7">
+                            كيف يمكنني التواصل معكم أو حجز استشارة؟
+                        </a>
+                    </p>
+                    <div class="collapse" id="q7">
+                        <div class="card card-body">
+                            يمكنك التواصل معنا عبر الهاتف أو واتساب أو من خلال نموذج الاتصال في موقعنا. سنرد عليك خلال 24 ساعة.
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="mt-4" id="simple-list-item-6">طلبات خاصة</h1>
+                <div class="row">
+                    <p class="d-inline-flex m-0 w-100 mt-3 col-12 gap-1">
+                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#q8" role="button" aria-expanded="false" aria-controls="q8">
+                            هل يمكنكم تنفيذ مطبخ بناءً على تصميمي الخاص؟
+                        </a>
+                    </p>
+                    <div class="collapse" id="q8">
+                        <div class="card card-body">
+                            بالتأكيد! نرحب بأي تصميم لديك وسنقوم بتنفيذه بدقة واحترافية عالية.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include('../../partial/footerar.ejs') %>

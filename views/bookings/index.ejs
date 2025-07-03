@@ -1,0 +1,204 @@
+<!-- views/bookings/index.ejs -->
+<%- include('../../partial/index.ejs') %>
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8f9fa; }
+        .card { border: none; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .stats-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .filter-card { background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%); color: white; }
+    </style>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="fas fa-calendar-check me-2"></i><%= title %></h1>
+        </div>
+
+        <!-- إحصائيات سريعة -->
+        <div class="row mb-4">
+            <div class="col-lg-2 col-md-4 mb-3">
+                <div class="card stats-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-calendar-alt fa-2x mb-2"></i>
+                        <h4><%= stats.total %></h4>
+                        <small>إجمالي الحجوزات</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-clock fa-2x mb-2"></i>
+                        <h4><%= stats.pending %></h4>
+                        <small>في الانتظار</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-check-circle fa-2x mb-2"></i>
+                        <h4><%= stats.confirmed %></h4>
+                        <small>مؤكدة</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-check-double fa-2x mb-2"></i>
+                        <h4><%= stats.completed %></h4>
+                        <small>مكتملة</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- فلترة -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="GET" class="row align-items-end">
+                    <div class="col-md-3">
+                        <label class="form-label">الحالة</label>
+                        <select name="status" class="form-select">
+                            <option value="">جميع الحالات</option>
+                            <option value="pending" <%= filter.status === 'pending' ? 'selected' : '' %>>في الانتظار</option>
+                            <option value="confirmed" <%= filter.status === 'confirmed' ? 'selected' : '' %>>مؤكدة</option>
+                            <option value="completed" <%= filter.status === 'completed' ? 'selected' : '' %>>مكتملة</option>
+                            <option value="cancelled" <%= filter.status === 'cancelled' ? 'selected' : '' %>>ملغية</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>بحث
+                        </button>
+                        <a href="/bookings" class="btn btn-secondary">إعادة تعيين</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- جدول الحجوزات -->
+        <div class="card">
+            <div class="card-body">
+                <% if (bookings.length > 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>العميل</th>
+                                    <th>البريد الإلكتروني</th>
+                                    <th>الهاتف</th>
+                                    <th>موعد الاستشارة</th>
+                                    <th>الوقت</th>
+                                    <th>الحالة</th>
+                                    <th>تاريخ الحجز</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% bookings.forEach(booking => { %>
+                                    <tr>
+                                        <td>
+                                            <strong><%= booking.firstName %> <%= booking.lastName %></strong>
+                                        </td>
+                                        <td><%= booking.email %></td>
+                                        <td><%= booking.phone %></td>
+                                        <td><%= new Date(booking.appointmentDate).toLocaleDateString('ar-SA') %></td>
+                                        <td><%= booking.appointmentTime %></td>
+                                        <td>
+                                            <span class="badge bg-<%= 
+                                                booking.status === 'pending' ? 'warning' : 
+                                                booking.status === 'confirmed' ? 'info' : 
+                                                booking.status === 'completed' ? 'success' : 'danger' 
+                                            %>">
+                                                <%= 
+                                                    booking.status === 'pending' ? 'في الانتظار' : 
+                                                    booking.status === 'confirmed' ? 'مؤكدة' : 
+                                                    booking.status === 'completed' ? 'مكتملة' : 'ملغية' 
+                                                %>
+                                            </span>
+                                        </td>
+                                        <td><%= new Date(booking.createdAt).toLocaleDateString('ar-SA') %></td>
+                                        <td>
+                                            <div class="btn-group">
+                                                
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('<%= booking._id %>', 'confirmed')">تأكيد</a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('<%= booking._id %>', 'completed')">إكمال</a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="updateStatus('<%= booking._id %>', 'cancelled')">إلغاء</a></li>
+                                                    </ul>
+                                                </div>
+                                                <button onclick="deleteBooking('<%= booking._id %>')" class="btn btn-sm btn-outline-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ترقيم الصفحات -->
+                    <% if (totalPages > 1) { %>
+                        <nav class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                        <a class="page-link" href="?page=<%= i %>&status=<%= filter.status || '' %>&date=<%= filter.date || '' %>"><%= i %></a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    <% } %>
+                <% } else { %>
+                    <div class="text-center py-5">
+                        <i class="fas fa-calendar-times fa-5x text-muted mb-3"></i>
+                        <h4 class="text-muted">لا توجد حجوزات</h4>
+                        <p class="text-muted">لم يتم العثور على أي حجوزات بالمعايير المحددة</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateStatus(id, status) {
+            fetch(`/bookings/${id}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('حدث خطأ في تحديث الحالة');
+                }
+            });
+        }
+
+        function deleteBooking(id) {
+            if (confirm('هل أنت متأكد من حذف هذا الحجز؟')) {
+                fetch(`/bookings/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('حدث خطأ في الحذف');
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+// app.js - محدث مع إدارة الحجوزات والرسائل
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -16,52 +17,29 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// Enhanced MongoDB connection with better error handling
+// Enhanced MongoDB connection
 async function connectToMongoDB() {
   try {
-    console.log('🔄 Connecting to MongoDB...');
-    console.log('📍 URI:', process.env.MONGODB_URI ? 'MongoDB Atlas' : 'Local MongoDB');
-    
     const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/kitchen-admin';
     
     await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
-      socketTimeoutMS: 45000, // Close sockets after 45s of inactivity
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
     });
     
     console.log('✅ Connected to MongoDB successfully!');
   } catch (error) {
     console.error('❌ MongoDB connection error:', error.message);
-    console.log('\n🔧 Troubleshooting steps:');
-    console.log('1. Check your .env file has MONGODB_URI (not MONGO_URI)');
-    console.log('2. Verify your MongoDB Atlas credentials');
-    console.log('3. Make sure your IP is whitelisted in MongoDB Atlas');
-    console.log('4. Check your internet connection');
-    
-    // Don't exit immediately, let the app run for development
     setTimeout(() => {
       console.log('\n⚠️  App will continue running, but database features won\'t work');
     }, 1000);
   }
 }
 
-// Connect to database
 connectToMongoDB();
 
-// Handle MongoDB connection events
-mongoose.connection.on('error', (err) => {
-  console.error('❌ MongoDB connection error:', err);
-});
-
-mongoose.connection.on('disconnected', () => {
-  console.log('⚠️  MongoDB disconnected');
-});
-
-mongoose.connection.on('reconnected', () => {
-  console.log('✅ MongoDB reconnected');
-});
 
 // Set view engine
 app.set('view engine', 'ejs');
@@ -73,15 +51,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-// Session configuration with fallback
+// Session configuration
 app.use(session({
   secret: process.env.SESSION_SECRET || 'kitchen-admin-fallback-secret',
   resave: false,
   saveUninitialized: false,
   store: process.env.MONGODB_URI ? MongoStore.create({
     mongoUrl: process.env.MONGODB_URI,
-    touchAfter: 24 * 3600 // lazy session update
-  }) : undefined, // Use memory store if no MongoDB
+    touchAfter: 24 * 3600
+  }) : undefined,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
@@ -113,28 +91,67 @@ const checkDBConnection = (req, res, next) => {
   next();
 };
 
-// Routes
+// Import routers
 const projectsRouter = require('./routers/projects');
 const clientsRouter = require('./routers/clients');
+const bookingsRouter = require('./routers/bookings');
+const contactsRouter = require('./routers/contacts');
+const publicRouter = require('./routers/public');
 const homeRouter = require('./routers/home');
+app.use('/', homeRouter);
 
-// Home route
+// Home route (Dashboard)
 app.get('/dashboard', requireAuth, checkDBConnection, async (req, res) => {
   try {
     const Project = require('./models/Project');
     const Client = require('./models/Client');
+    const Booking = require('./models/Booking');
+    const Contact = require('./models/Contact');
     
-    const projectsCount = await Project.countDocuments();
-    const clientsCount = await Client.countDocuments();
-    const recentProjects = await Project.find().sort({ createdAt: -1 }).limit(5);
-    const recentClients = await Client.find().sort({ createdAt: -1 }).limit(5);
+    // جمع الإحصائيات
+    const [projectsCount, clientsCount, bookingsCount, contactsCount] = await Promise.all([
+      Project.countDocuments(),
+      Client.countDocuments(),
+      Booking.countDocuments(),
+      Contact.countDocuments()
+    ]);
+
+    // الحجوزات الجديدة (آخر 7 أيام)
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    
+    const [recentProjects, recentClients, recentBookings, recentContacts] = await Promise.all([
+      Project.find().sort({ createdAt: -1 }).limit(5),
+      Client.find().sort({ createdAt: -1 }).limit(5),
+      Booking.find().sort({ createdAt: -1 }).limit(5),
+      Contact.find({ status: 'new' }).sort({ createdAt: -1 }).limit(5)
+    ]);
+
+    // إحصائيات إضافية
+    const [pendingBookings, newContacts, todayBookings] = await Promise.all([
+      Booking.countDocuments({ status: 'pending' }),
+      Contact.countDocuments({ status: 'new' }),
+      Booking.countDocuments({
+        appointmentDate: {
+          $gte: new Date().setHours(0, 0, 0, 0),
+          $lt: new Date().setHours(23, 59, 59, 999)
+        }
+      })
+    ]);
     
     res.render('dashboard', {
       title: 'لوحة التحكم',
       projectsCount,
       clientsCount,
+      bookingsCount,
+      contactsCount,
       recentProjects,
-      recentClients
+      recentClients,
+      recentBookings,
+      recentContacts,
+      pendingBookings,
+      newContacts,
+      todayBookings
     });
   } catch (error) {
     console.error('Dashboard error:', error);
@@ -200,10 +217,14 @@ app.post('/logout', (req, res) => {
   });
 });
 
-// Use routers with authentication and DB check
+// Use routers with authentication
 app.use('/projects', requireAuth, checkDBConnection, projectsRouter);
 app.use('/clients', requireAuth, checkDBConnection, clientsRouter);
-app.use('/', homeRouter);
+app.use('/bookings', requireAuth, checkDBConnection, bookingsRouter);
+app.use('/contacts', requireAuth, checkDBConnection, contactsRouter);
+
+// Public API routes (for forms)
+app.use('/api', publicRouter);
 
 // API routes for AJAX requests
 app.get('/api/projects', requireAuth, checkDBConnection, async (req, res) => {
@@ -226,6 +247,35 @@ app.get('/api/clients', requireAuth, checkDBConnection, async (req, res) => {
   }
 });
 
+// Dashboard API for real-time data
+app.get('/api/dashboard-stats', requireAuth, checkDBConnection, async (req, res) => {
+  try {
+    const Project = require('./models/Project');
+    const Client = require('./models/Client');
+    const Booking = require('./models/Booking');
+    const Contact = require('./models/Contact');
+
+    const stats = {
+      projects: await Project.countDocuments(),
+      clients: await Client.countDocuments(),
+      bookings: await Booking.countDocuments(),
+      contacts: await Contact.countDocuments(),
+      pendingBookings: await Booking.countDocuments({ status: 'pending' }),
+      newContacts: await Contact.countDocuments({ status: 'new' }),
+      todayBookings: await Booking.countDocuments({
+        appointmentDate: {
+          $gte: new Date().setHours(0, 0, 0, 0),
+          $lt: new Date().setHours(23, 59, 59, 999)
+        }
+      })
+    };
+
+    res.json(stats);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Health check route
 app.get('/health', (req, res) => {
   const health = {
@@ -240,26 +290,25 @@ app.get('/health', (req, res) => {
 });
 
 // Error handling middleware
-// app.use((req, res) => {
-//   res.status(404).render('error', { 
-//     error: 'الصفحة غير موجودة',
-//     title: 'خطأ 404'
-//   });
-// });
+app.use((req, res) => {
+  res.status(404).render('error', { 
+    error: 'الصفحة غير موجودة',
+    title: 'خطأ 404'
+  });
+});
 
-// app.use((err, req, res, next) => {
-//   console.error('Application error:', err.stack);
-//   res.status(500).render('error', { 
-//     error: 'حدث خطأ في الخادم',
-//     title: 'خطأ في الخادم'
-//   });
-// });
+app.use((err, req, res, next) => {
+  console.error('Application error:', err.stack);
+  res.status(500).render('error', { 
+    error: 'حدث خطأ في الخادم',
+    title: 'خطأ في الخادم'
+  });
+});
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
-  console.log(`🌐 Open your browser and go to: http://localhost:${PORT}`);
-  console.log('📊 Health check available at: /health');
+  
 });
 
 module.exports = app;

@@ -38,7 +38,7 @@ html, body {
     overflow: hidden;
 }
 .head .backround{
-    background: linear-gradient(to right, rgba(245, 204, 0, 0.9 ), rgba(245, 204, 0, 0.7), rgba(245, 204, 0, 0.1), rgba(245, 204, 0, 0));
+    background: linear-gradient(to left, rgba(245, 204, 0, 0.9 ), rgba(245, 204, 0, 0.7), rgba(245, 204, 0, 0.1), rgba(245, 204, 0, 0));
     position: absolute;
     top: 0;
     left: 0;
@@ -127,22 +127,7 @@ html, body {
 }
 
 /* Fixed Section Names */
-.sections::after {
-    content: attr(data-section);
-    position: absolute;
-    top: 20px;
-    left: 50px;
-    background: var(--main-color);
-    color: black;
-    padding: 8px 20px;
-    border-radius: 25px;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    z-index: 10;
-    box-shadow: 0 5px 15px rgba(245, 204, 0, 0.3);
-}
+
 
 .sections .title{
     position: relative;
@@ -151,19 +136,11 @@ html, body {
 }
 
 /* Improved Line News - Seamless Scrolling */
-.line-news{
-    padding: 30px 0;
-    overflow: hidden;
-    white-space: nowrap;
-    position: relative;
-    background: rgba(245, 204, 0, 0.05);
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
-}
+
 
 .line-news .clients-container {
-    display: inline-flex;
-    animation: scroll-left 25s linear infinite;
+    display: flex;
+    animation: scroll-left 10s linear infinite;
 }
 
 .line-news .client{
@@ -372,21 +349,6 @@ html, body {
     color: var(--main-color);
 }
 
-.about-section .check-mark {
-    width: 20px;
-    height: 20px;
-    background-color: var(--main-color);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    font-size: 12px;
-    font-weight: bold;
-    flex-shrink: 0;
-}
-
 .about-section .service-text {
     font-weight: 600;
     font-size: 16px;
@@ -571,17 +533,7 @@ html, body {
     transform: translateX(10px);
 }
 
-.feature-icon {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, var(--main-color), #e6b800);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 20px;
-    flex-shrink: 0;
-}
+
 
 .feature-icon i {
     font-size: 24px;
@@ -608,15 +560,6 @@ html, body {
     position: relative;
 }
 
-.process-steps::before {
-    content: '';
-    position: absolute;
-    left: 20px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--main-color), transparent);
-}
 
 .process-step {
     display: flex;
@@ -625,21 +568,7 @@ html, body {
     position: relative;
 }
 
-.step-number {
-    width: 40px;
-    height: 40px;
-    background: var(--main-color);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    margin-right: 20px;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 2;
-}
+
 
 .step-content h4 {
     margin-bottom: 10px;
@@ -904,4 +833,202 @@ html, body {
         padding: 20px;
     }
 }
+/* From Uiverse.io by ammarsaa */ 
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 20px;
+  position: relative;
+  background-color: #1a1a1a;
+  color: #fff;
+  border: 1px solid #333;
+}
 
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  color: var(--main-color);
+}
+
+.title::before {
+  width: 18px;
+  height: 18px;
+}
+
+.title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.title::before,
+.title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: var(--main-color);
+}
+
+.message, 
+.signin {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.signin {
+  text-align: center;
+}
+
+.signin a:hover {
+  text-decoration: underline var(--main-color);
+}
+
+.signin a {
+  color: var(--main-color);
+}
+
+.flex {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+}
+
+.form label {
+  position: relative;
+}
+
+.form label .input {
+  background-color: #333;
+  color: #fff;
+  width: 100%;
+  padding: 20px 05px 05px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
+
+.form label .input + span {
+  color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  left: 10px;
+  top: 0px;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.form label .input:placeholder-shown + span {
+  top: 12.5px;
+  font-size: 0.9em;
+}
+
+.form label .input:focus + span,
+.form label .input:valid + span {
+  color: var(--main-color);
+  top: 0px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+textarea {
+  height: 200px !important;
+  resize: none;
+  padding: 20px !important;
+}
+.input {
+  font-size: medium;
+}
+
+.submit {
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  transform: .3s ease;
+  background-color: var(--main-color);
+}
+
+.submit:hover {
+  background-color: var(--main-color);
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+
+
+
+.alert {
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+    color: white;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+    color: white;
+}
+
+.submit {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.submit-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fa-spin {
+    animation: fa-spin 1s infinite linear;
+}
+
+@keyframes fa-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* تحسين عرض النموذج على الجوال */
+@media (max-width: 768px) {
+    .flex {
+        flex-direction: column !important;
+    }
+    
+    .flex label {
+        width: 100% !important;
+        margin-bottom: 1rem;
+    }
+}

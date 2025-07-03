@@ -1,0 +1,113 @@
+<%- include('../../partial/mainheadar.ejs') %>
+<style>
+    .vision{
+        width: 80%;
+        height: 300px;
+        overflow: hidden;
+    }
+    .vision-img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+@media (max-width: 768px){
+    .vision{
+        width: 100%;
+    }
+}
+</style>
+
+<div class="headpage">
+    <div class="video">
+        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748487583/482203992_1153061593186920_4990799730796527867_n_eeiqzf.jpg" alt="">
+    </div>
+    <div class="backround"></div>
+    <div class="text h-100 p-3">
+        <div class="row align-items-center h-75 mt-5">
+            <div class="col-12 col-md-6">
+                <p class="hero-text stagger-1">جالاكسي جروب</p>
+                <h1 class="hero-text stagger-2"><strong>من</strong> نحن</h1>
+                <h5 class="mt-5 hero-text">الرئيسية/من نحن</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+   <div class="container-fluid sections about-section mb-5" data-section="من نحن">
+       <div class="row p-3">
+           <div class="col-12 col-md-6 slide-left">
+               <h1 class="mb-4">نُضفي الجمال والتميّز على مطبخك</h1>
+               <p class="mb-4">في جالاكسي جروب، نحوّل أحلامك في المطبخ إلى واقع أنيق وعملي، نصمّم مساحات راقية تناسب نمط حياتك تمامًا. يقوم فريقنا الخبير بتصميم المطابخ في جميع أنحاء الأردن، مقدمين الابتكار والجمال لكل منزل.</p>
+   
+               <div class="services-list">
+                   <div class="service-item fade-in stagger-1">
+                       <span class="check-mark">✓</span>
+                       <span class="service-text">تصميم وتركيب مطابخ باحتراف</span>
+                   </div>
+                   <div class="service-item fade-in stagger-2">
+                       <span class="check-mark">✓</span>
+                       <span class="service-text">حلول مطابخ احترافية</span>
+                   </div>
+                   <div class="service-item fade-in stagger-3">
+                       <span class="check-mark">✓</span>
+                       <span class="service-text">تصاميم مطابخ مخصصة</span>
+                   </div>
+                   <div class="service-item fade-in stagger-4">
+                       <span class="check-mark">✓</span>
+                       <span class="service-text">خدمة تركّز على العميل</span>
+                   </div>
+               </div>
+           </div>
+           <div class="col-12 col-md-6 slide-right">
+               <div class="about-image-container">
+                   <% if (randomImages && randomImages.length > 0) { %>
+                       <img src="<%= randomImages[0].url %>" alt="روعة المطابخ" class="about-image">
+                   <% } else { %>
+                       <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748391242/482359026_1151700753323004_2899151710403055781_n_qbchyt.jpg" alt="روعة المطابخ" class="about-image">
+                   <% } %>
+               </div>
+           </div>
+       </div>
+   </div>
+   
+   <div class="container-fluid sections about-section mb-5" data-section="رؤيتنا">
+       <div class="row p-3">
+           <div class="col-12 col-md-6 slide-left justify-content-center d-flex">
+               <div class="rounded-5 vision">
+                   <% if (randomImages && randomImages.length > 1) { %>
+                       <img class="vision-img" src="<%= randomImages[1].url %>" alt="رؤيتنا">
+                   <% } else { %>
+                       <img class="vision-img" src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748487583/482203992_1153061593186920_4990799730796527867_n_eeiqzf.jpg" alt="رؤيتنا">
+                   <% } %>
+               </div>
+           </div>
+           <div class="col-12 col-md-6 mt-4 slide-right">
+               <h1><strong>نصنع أرقى</strong> المطابخ في الأردن</h1>
+               <p class="text-secondary">في جالاكسي جروب، نطمح إلى تحويل المطابخ في جميع أنحاء الأردن إلى تحف فنية أنيقة وعملية تعكس أسلوب حياة كل عميل وتفوق توقعاته.</p>
+               <p class="text-secondary">في جالاكسي جروب، يدفعنا التزامنا بالتميّز إلى دمج التصاميم المبتكرة للمطابخ مع الخبرة المحلية، لإنشاء مساحات مذهلة وعملية في آن واحد. نحن نولي الأولوية للمواد عالية الجودة والحلول المستدامة، لضمان أن كل مطبخ نصممه يسهم في أسلوب حياة أكثر أناقة وكفاءة لمجتمعنا.</p>
+           </div>
+       </div>
+   </div>
+   
+   <div class="container-fluid sections about-section mb-5" data-section="مهمتنا">
+       <div class="row p-3">
+           <div class="col-12 col-md-6 slide-right p-3">
+               <h1><strong>نرتقي بأسلوب حياة</strong> المطابخ في الأردن</h1>
+               <p class="text-secondary">تهدف جالاكسي جروب إلى وضع معايير جديدة في تميّز المطابخ، من خلال تصميم مساحات تجمع بين الجمال الجمالي والتصميم الذكي والمستدام المصمم خصيصًا للمنازل الأردنية الحديثة.</p>
+               <p class="text-secondary">في جالاكسي جروب، نحن ملتزمون بتصميم مساحات مطبخية تحقق التوازن المثالي بين الجمال والعملية والاستدامة. من خلال التصاميم المبتكرة وفهمنا العميق لاحتياجات المجتمع المحلي، نحوّل كل مطبخ إلى ملاذ شخصي يعزز الحياة اليومية ويعكس نمط الحياة الأردني العصري.</p>
+           </div>
+           <div class="col-12 col-md-6 slide-left justify-content-center d-flex">
+               <div class="rounded-5 vision">
+                   <% if (randomImages && randomImages.length > 2) { %>
+                       <img class="vision-img" src="<%= randomImages[2].url %>" alt="مهمتنا">
+                   <% } else { %>
+                       <img class="vision-img" src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748487583/482203992_1153061593186920_4990799730796527867_n_eeiqzf.jpg" alt="مهمتنا">
+                   <% } %>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+
+<%- include('../../partial/footerar.ejs') %>

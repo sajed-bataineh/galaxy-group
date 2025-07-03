@@ -1,129 +1,297 @@
+<%- include('../partial/index.ejs') %>
 
-<!-- views/dashboard.ejs -->
-<%- include('../partial/dashboard.ejs') %>
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8f9fa; }
+        .card { border: none; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .stats-card { color: white; }
+        .stats-card-projects { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .stats-card-clients { background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%); }
+        .stats-card-bookings { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .stats-card-contacts { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); }
+        .page-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px 0; margin-bottom: 30px; border-radius: 0 0 20px 20px; }
+        .notification-badge { position: absolute; top: -5px; right: -5px; }
+    </style>
 
-<style>
-        .card { 
-            border: none;
-        }
-        .stats-card { 
-            background-color: #2a2829;
-            color: #ffc107;
-        }
-        .card-header{
-            background-color: #2a2829;
-        }
-</style>
-<body>
-    <div class="container-fluid">
+
+    <div class="container">
+        <!-- إحصائيات رئيسية -->
+        <div class="row mb-4 mt-5">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card stats-card stats-card-projects">
+                    <div class="card-body text-center">
+                        <i class="fas fa-project-diagram fa-3x mb-3"></i>
+                        <h3><%= typeof projectsCount !== 'undefined' ? projectsCount : 0 %></h3>
+                        <p class="mb-0">إجمالي المشاريع</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card stats-card stats-card-clients">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users fa-3x mb-3"></i>
+                        <h3><%= typeof clientsCount !== 'undefined' ? clientsCount : 0 %></h3>
+                        <p class="mb-0">إجمالي العملاء</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card stats-card stats-card-bookings">
+                    <div class="card-body text-center">
+                        <i class="fas fa-calendar-check fa-3x mb-3"></i>
+                        <h3><%= typeof bookingsCount !== 'undefined' ? bookingsCount : 0 %></h3>
+                        <p class="mb-0">إجمالي الحجوزات</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card stats-card stats-card-contacts">
+                    <div class="card-body text-center">
+                        <i class="fas fa-envelope fa-3x mb-3"></i>
+                        <h3><%= typeof contactsCount !== 'undefined' ? contactsCount : 0 %></h3>
+                        <p class="mb-0">إجمالي الرسائل</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- إحصائيات سريعة -->
+        <div class="row mb-4">
+            <div class="col-lg-4 col-md-6 mb-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-clock fa-2x mb-2"></i>
+                        <h4><%= typeof pendingBookings !== 'undefined' ? pendingBookings : 0 %></h4>
+                        <small>حجوزات في الانتظار</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-3">
+                <div class="card bg-danger text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-envelope-open fa-2x mb-2"></i>
+                        <h4><%= typeof newContacts !== 'undefined' ? newContacts : 0 %></h4>
+                        <small>رسائل جديدة</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-calendar-day fa-2x mb-2"></i>
+                        <h4><%= typeof todayBookings !== 'undefined' ? todayBookings : 0 %></h4>
+                        <small>مواعيد اليوم</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
-            <!-- Sidebar -->
-             
-            <%- include('../partial/sidebar.ejs') %>
-
-
-            <!-- Main content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="page-header p-5">
-                    <div class="container">
-                        <h1 class="display-6"><i class="fa-solid fa-user-tie mx-3"></i><%= title %></h1>
-                        <p class="text-warning mx-3">مرحباً بك في لوحة التحكم الرئيسية</p>
+            <!-- الحجوزات الأخيرة -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-calendar-check me-2"></i>الحجوزات الأخيرة</h5>
+                    </div>
+                    <div class="card-body">
+                        <% if (typeof recentBookings !== 'undefined' && recentBookings.length > 0) { %>
+                            <% recentBookings.forEach(booking => { %>
+                                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                                    <div>
+                                        <h6 class="mb-1"><%= booking.firstName %> <%= booking.lastName %></h6>
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>
+                                            <%= new Date(booking.appointmentDate).toLocaleDateString('ar-SA') %>
+                                            - <%= booking.appointmentTime %>
+                                        </small>
+                                    </div>
+                                    <span class="badge bg-<%= booking.status === 'confirmed' ? 'success' : booking.status === 'pending' ? 'warning' : 'info' %>">
+                                        <%= booking.status === 'confirmed' ? 'مؤكدة' : booking.status === 'pending' ? 'في الانتظار' : 'مكتملة' %>
+                                    </span>
+                                </div>
+                            <% }) %>
+                            <div class="text-center mt-3">
+                                <a href="/bookings" class="btn btn-primary btn-sm">عرض جميع الحجوزات</a>
+                            </div>
+                        <% } else { %>
+                            <p class="text-center text-muted">لا توجد حجوزات بعد</p>
+                        <% } %>
                     </div>
                 </div>
+            </div>
 
-                <!-- Statistics Cards -->
-                <div class="row mb-4">
-                    <div class="col-md-6 col-lg-4 mb-3">
-                        <div class="card stats-card rounded-4 shadow">
-                            <div class=" text-center d-flex align-items-center justify-content-evenly p-3">
-                                <i class="fa-solid fa-list-check fa-2x"></i>
-                                <h3 class="m-0"><%= projectsCount %></h3>
-                                <p class="mb-0">إجمالي المشاريع</p>
-                            </div>
-                        </div>
+            <!-- الرسائل الجديدة -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0"><i class="fas fa-envelope me-2"></i>الرسائل الجديدة</h5>
                     </div>
-                    <div class="col-md-6 col-lg-4 mb-3">
-                        <div class="card stats-card rounded-4 shadow">
-                            <div class="text-center d-flex align-items-center justify-content-evenly p-3">
-                                <i class="fa-solid fa-user-tie fa-2x"></i>
-                                <h3 class="m-0"><%= clientsCount %></h3>
-                                <p class="mb-0">إجمالي العملاء</p>
+                    <div class="card-body">
+                        <% if (typeof recentContacts !== 'undefined' && recentContacts.length > 0) { %>
+                            <% recentContacts.forEach(contact => { %>
+                                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                                    <div>
+                                        <h6 class="mb-1"><%= contact.firstName %> <%= contact.lastName %></h6>
+                                        <small class="text-muted">
+                                            <%= contact.message.substring(0, 40) %>...
+                                        </small>
+                                    </div>
+                                    <span class="badge bg-<%= contact.status === 'new' ? 'primary' : 'info' %>">
+                                        <%= contact.status === 'new' ? 'جديدة' : 'مقروءة' %>
+                                    </span>
+                                </div>
+                            <% }) %>
+                            <div class="text-center mt-3">
+                                <a href="/contacts" class="btn btn-danger btn-sm">عرض جميع الرسائل</a>
                             </div>
-                        </div>
+                        <% } else { %>
+                            <p class="text-center text-muted">لا توجد رسائل جديدة</p>
+                        <% } %>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Recent Projects and Clients -->
-                 <div class="container">
-                  <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <div class="card border shadow rounded-3">
-                            <div class="card-header text-white d-flex justify-content-center">
-                                <h5 class="mb-0"><i class="fa-solid fa-list-check mx-2"></i></i>المشاريع الأخيرة</h5>
+        <div class="row">
+            <!-- المشاريع الأخيرة -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-project-diagram me-2"></i>المشاريع الأخيرة</h5>
+                    </div>
+                    <div class="card-body">
+                        <% if (typeof recentProjects !== 'undefined' && recentProjects.length > 0) { %>
+                            <% recentProjects.forEach(project => { %>
+                                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                                    <div>
+                                        <h6 class="mb-1"><%= project.name.ar %></h6>
+                                        <small class="text-muted"><%= project.location.ar %></small>
+                                    </div>
+                                    <span class="badge bg-<%= project.status === 'completed' ? 'success' : project.status === 'active' ? 'primary' : 'warning' %>">
+                                        <%= project.status === 'completed' ? 'مكتمل' : project.status === 'active' ? 'نشط' : 'في الانتظار' %>
+                                    </span>
+                                </div>
+                            <% }) %>
+                            <div class="text-center mt-3">
+                                <a href="/projects" class="btn btn-info btn-sm">عرض جميع المشاريع</a>
                             </div>
-                            <div class="card-body">
-                                <% if (recentProjects.length > 0) { %>
-                                    <% recentProjects.forEach(project => { %>
-                                        <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
-                                            <div>
-                                                <h6 class="mb-1"><%= project.name.ar %></h6>
-                                                <small class="text-muted"><%= project.location.ar %></small>
+                        <% } else { %>
+                            <p class="text-center text-muted">لا توجد مشاريع بعد</p>
+                            <div class="text-center">
+                                <a href="/projects/create" class="btn btn-primary">إضافة مشروع جديد</a>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- العملاء الجدد -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-users me-2"></i>العملاء الجدد</h5>
+                    </div>
+                    <div class="card-body">
+                        <% if (typeof recentClients !== 'undefined' && recentClients.length > 0) { %>
+                            <% recentClients.forEach(client => { %>
+                                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                                    <div class="d-flex align-items-center">
+                                        <% if (client.logo && client.logo.url) { %>
+                                            <img src="<%= client.logo.url %>" alt="<%= client.name.ar %>" class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                                        <% } else { %>
+                                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                                <i class="fas fa-user text-white"></i>
                                             </div>
-                                            <span class="badge bg-<%= project.status === 'completed' ? 'success' : project.status === 'active' ? 'primary' : 'warning' %>">
-                                                <%= project.status === 'completed' ? 'مكتمل' : project.status === 'active' ? 'نشط' : 'في الانتظار' %>
-                                            </span>
+                                        <% } %>
+                                        <div>
+                                            <h6 class="mb-1"><%= client.name.ar %></h6>
+                                            <small class="text-muted"><%= client.email %></small>
                                         </div>
-                                        
-                                    <% }) %>
-                                    
-                                <% } else { %>
-                                    <p class="text-center text-muted">لا توجد مشاريع بعد</p>
-                                <% } %>
+                                    </div>
+                                    <span class="badge bg-<%= client.status === 'active' ? 'success' : 'secondary' %>">
+                                        <%= client.status === 'active' ? 'نشط' : 'غير نشط' %>
+                                    </span>
+                                </div>
+                            <% }) %>
+                            <div class="text-center mt-3">
+                                <a href="/clients" class="btn btn-success btn-sm">عرض جميع العملاء</a>
                             </div>
-                        </div>
+                        <% } else { %>
+                            <p class="text-center text-muted">لا يوجد عملاء بعد</p>
+                            <div class="text-center">
+                                <a href="/clients/create" class="btn btn-success">إضافة عميل جديد</a>
+                            </div>
+                        <% } %>
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="col-lg-6 mb-4">
-                        <div class="card border shadow rounded-3">
-                            <div class="card-header text-white d-flex justify-content-center">
-                                <h5 class="mb-0"><i class="fa-solid fa-user-tie mx-2"></i>العملاء الجدد</h5>
+        <!-- إجراءات سريعة -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>إجراءات سريعة</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                                <a href="/projects/create" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-plus-circle fa-2x d-block mb-2"></i>
+                                    مشروع جديد
+                                </a>
                             </div>
-                            <div class="card-body">
-                                <% if (recentClients.length > 0) { %>
-                                    <% recentClients.forEach(client => { %>
-                                        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                                            <div class="d-flex align-items-center">
-                                                <% if (client.logo && client.logo.url) { %>
-                                                    <img src="<%= client.logo.url %>" alt="<%= client.name.ar %>" class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
-                                                <% } else { %>
-                                                    <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                                                        <i class="fas fa-user text-white"></i>
-                                                    </div>
-                                                <% } %>
-                                                <div>
-                                                    <h6 class="mb-1"><%= client.name.ar %></h6>
-                                                    <small class="text-muted"><%= client.email %></small>
-                                                </div>
-                                            </div>
-                                            <span class="badge bg-<%= client.status === 'active' ? 'success' : 'secondary' %>">
-                                                <%= client.status === 'active' ? 'نشط' : 'غير نشط' %>
-                                            </span>
-                                        </div>
-                                    <% }) %>
-                                    
-                                <% } else { %>
-                                    <p class="text-center text-muted">لا يوجد عملاء بعد</p>
-                                <% } %>
+                            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                                <a href="/clients/create" class="btn btn-outline-success w-100">
+                                    <i class="fas fa-user-plus fa-2x d-block mb-2"></i>
+                                    عميل جديد
+                                </a>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                                <a href="/bookings" class="btn btn-outline-warning w-100">
+                                    <i class="fas fa-calendar-check fa-2x d-block mb-2"></i>
+                                    الحجوزات
+                                </a>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                                <a href="/contacts" class="btn btn-outline-danger w-100">
+                                    <i class="fas fa-envelope fa-2x d-block mb-2"></i>
+                                    الرسائل
+                                </a>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                                <a href="/projects" class="btn btn-outline-info w-100">
+                                    <i class="fas fa-list fa-2x d-block mb-2"></i>
+                                    عرض المشاريع
+                                </a>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                                <a href="/clients" class="btn btn-outline-secondary w-100">
+                                    <i class="fas fa-address-book fa-2x d-block mb-2"></i>
+                                    عرض العملاء
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                 </div>
-                
-            </main>
+            </div>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // تحديث الإحصائيات كل 30 ثانية
+        setInterval(async () => {
+            try {
+                const response = await fetch('/api/dashboard-stats');
+                const stats = await response.json();
+                
+                // تحديث الأرقام (يمكن تحسين هذا لاحقاً)
+                console.log('Stats updated:', stats);
+            } catch (error) {
+                console.error('Error updating stats:', error);
+            }
+        }, 30000);
+    </script>
 </body>
 </html>

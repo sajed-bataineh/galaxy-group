@@ -1,0 +1,185 @@
+<%- include('../../partial/mainheadar.ejs') %>
+<style>
+.details{
+    /* background-color: #fefcef ; */
+    background-color: var(--main-color); ;
+}
+.line span{
+    display: block;
+    width: 90%;
+    height: 0.3px;
+    opacity: 0.5;
+}
+</style>
+<div class="headpage">
+    <div class="video">
+        <img src="https://res.cloudinary.com/dd03x0wle/image/upload/v1748487583/482203992_1153061593186920_4990799730796527867_n_eeiqzf.jpg" alt="">
+    </div>
+    <div class="backround"></div>
+    <div class="text h-100 p-3">
+        <div class="row align-items-center h-75 mt-5">
+            <div class="col-12 col-md-6">
+                <p class="hero-text stagger-1">مجموعة جالاكسي</p>
+                <h1 class="hero-text stagger-2"><strong>احجز استشارة</strong></h1>
+                <h5 class="mt-5 hero-text">الرئيسية / احجز استشارة</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="details shadow rounded-5 p-4 mt-5">
+        <div class="row justify-content-evenly">
+            <div class="col-12 col-md-5 rounded bg-white">
+                <div class="p-2 d-flex w-100 align-items-center">
+                    <i style="font-size: 30px;" class="fa-solid fa-clock"></i>
+                    <div class="mx-3"></div>
+                    <div class="text">
+                        <p>مدة الاستشارة</p>
+                        <h5><strong style="color: var(--main-color);">45-60 دقيقة</strong></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 mt-3 mt-md-0 rounded bg-white">
+                <div class="p-2 d-flex w-100 align-items-center">
+                    <i style="font-size: 30px;" class="fa-solid fa-ticket"></i>
+                    <div class="mx-3"></div>
+                    <div class="text">
+                        <p>رسوم الاستشارة</p>
+                        <h5><strong style="color: var(--main-color);">مجانية</strong></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 rounded bg-white"></div>
+        </div>
+    </div>
+    <div class="container-fluid sections about-section mb-5 mt-5" data-section="استشارة">
+        <form class="form p-3 p-md-5" id="bookingForm">
+            <p class="title">تواصل معنا</p>
+            <h3><strong>احصل على استشارة</strong> تصميم مطبخ احترافية اليوم!</h3>
+            <p class="message">تواصل معنا اليوم للحصول على خدمات تصميم مطبخ احترافية. دع مجموعة جالاكسي تحول مطبخك إلى مساحة أنيقة وعملية تعكس ذوقك الشخصي.</p>
+            
+            <!-- رسائل النجاح والخطأ -->
+            <div id="alertContainer"></div>
+            
+            <div class="flex justify-content-between">
+                <label class="w-50">
+                    <input class="input" type="text" name="firstName" placeholder="" required>
+                    <span>الاسم الأول</span>
+                </label>
+
+                <label class="w-50">
+                    <input class="input" type="text" name="lastName" placeholder="" required>
+                    <span>اسم العائلة</span>
+                </label>
+            </div>  
+            
+            <div class="flex justify-content-between mt-4">
+                <label class="w-50">
+                    <input class="input" type="email" name="email" placeholder="" required>
+                    <span>البريد الإلكتروني</span>
+                </label>
+
+                <label class="w-50">
+                    <input class="input" type="tel" name="phone" placeholder="" required>
+                    <span>رقم الهاتف</span>
+                </label>
+            </div>  
+            
+            <div class="flex justify-content-between mt-4">
+                <label class="w-50">
+                    <input class="input" type="date" name="appointmentDate" placeholder="" required>
+                    <span>تاريخ الموعد</span>
+                </label>
+
+                <label class="w-50">
+                    <select class="input" name="appointmentTime" required>
+                        <option value="">اختر الوقت</option>
+                        <option value="8:00 AM">8:00 صباحًا</option>
+                        <option value="9:00 AM">9:00 صباحًا</option>
+                        <option value="10:00 AM">10:00 صباحًا</option>
+                        <option value="11:00 AM">11:00 صباحًا</option>
+                        <option value="12:00 PM">12:00 ظهرًا</option>
+                        <option value="1:00 PM">1:00 مساءً</option>
+                        <option value="2:00 PM">2:00 مساءً</option>
+                        <option value="3:00 PM">3:00 مساءً</option>
+                        <option value="4:00 PM">4:00 مساءً</option>
+                        <option value="5:00 PM">5:00 مساءً</option>
+                    </select>
+                    <span>الوقت</span>
+                </label>
+            </div>  
+            
+            <label class="mt-4">
+                <textarea class="input" name="message" placeholder="أي متطلبات خاصة أو أسئلة..."></textarea>
+                <span>رسالة (اختياري)</span>
+            </label> 
+                
+            <button type="submit" class="submit">
+                <span class="submit-text">احجز استشارة</span>
+                <span class="submit-loading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> جاري الحجز...
+                </span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+       document.getElementById('bookingForm')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const submitBtn = this.querySelector('.submit');
+    const submitText = submitBtn.querySelector('.submit-text');
+    const submitLoading = submitBtn.querySelector('.submit-loading');
+    const alertContainer = document.getElementById('alertContainer');
+    
+    // إظهار حالة التحميل
+    submitText.style.display = 'none';
+    submitLoading.style.display = 'inline';
+    submitBtn.disabled = true;
+    
+    try {
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        
+        const response = await fetch('/api/book-consultation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alertContainer.innerHTML = `
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    ${result.message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            this.reset(); // مسح النموذج
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        alertContainer.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                ${error.message || 'حدث خطأ في إرسال الطلب. يرجى المحاولة مرة أخرى.'}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `;
+    } finally {
+        // إخفاء حالة التحميل
+        submitText.style.display = 'inline';
+        submitLoading.style.display = 'none';
+        submitBtn.disabled = false;
+    }
+});
+    </script>
+
+<%- include('../../partial/footerar.ejs') %>
